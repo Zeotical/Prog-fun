@@ -23,14 +23,34 @@ using namespace std;
 
 int main() {
 
-ifstream DataIn;  // inputs from a file
-ofstream DataOut; // outputs to a file
-string filename;
+ifstream dataIn;  // inputs from a file
+ofstream dataOut; // outputs to a file
+string filename , line;
+
 
 cout << "Hello world"  << endl ;
 
 cout << "Enter the filename: " <<endl ;
 cin >> filename ;
+
+dataIn.open(filename) ;
+
+if (dataIn) {
+    cout << "opened" ;
+    // timer to display output after a bit 
+    while (getline(dataIn,line) ) {
+        cout << line ;
+        dataOut.open(line) ;
+    }
+    dataIn.close() ;
+
+}
+else {
+    cout << "Failed to open the file" ;
+
+}
+// dataOut.open(filename) ;
+
 
 return 0;
 }
