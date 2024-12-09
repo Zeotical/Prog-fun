@@ -36,11 +36,16 @@ cin >> filename ;
 dataIn.open(filename) ;
 
 if (dataIn) {
-    cout << "opened" ;
-    // timer to display output after a bit 
+    cout << "opened" << endl;
+    // add timer to display output after a bit 
     while (getline(dataIn,line) ) {
-        cout << line ;
-        dataOut.open(line) ;
+        dataOut.open("placeholder.txt") ;
+        while (getline(dataIn,line)){
+        dataOut<< line << endl;
+        cout << line << endl;
+
+         }
+
     }
     dataIn.close() ;
 

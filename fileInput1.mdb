@@ -11,6 +11,7 @@ customer phone TEXT,
 customer_email TEXT 
 );
 TABLES;
+
 INSERT INTO
 customer(customer_id,customer_name,customer_city,customer_state,customer_country,
 customer_phone,customer_email) VALUES (1, 'namel', 'city1', 'statel', 'countryl','phone1','email1');
