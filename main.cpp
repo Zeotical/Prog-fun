@@ -17,12 +17,20 @@
 // *********************************************************
 
 #include <iostream>
+#include <fstream> // header file for file access
 
 using namespace std;
 
 int main() {
 
-cout << "Hello world" ;
+ifstream DataIn;  // inputs from a file
+ofstream DataOut; // outputs to a file
+string filename;
+
+cout << "Hello world"  << endl ;
+
+cout << "Enter the filename: " <<endl ;
+cin >> filename ;
 
 return 0;
 }
