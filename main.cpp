@@ -40,6 +40,7 @@ if (dataIn) {
     // add timer to display output after a bit 
     dataOut.open("placeholderrr.txt") ;
     while (getline(dataIn,line) ) {
+        
         cout << line << endl;
 
         dataOut<< line << endl;
