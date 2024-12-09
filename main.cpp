@@ -38,13 +38,13 @@ dataIn.open(filename) ;
 if (dataIn) {
     cout << "opened" << endl;
     // add timer to display output after a bit 
+    dataOut.open("placeholderrr.txt") ;
     while (getline(dataIn,line) ) {
-        dataOut.open("placeholder.txt") ;
-        while (getline(dataIn,line)){
-        dataOut<< line << endl;
         cout << line << endl;
 
-         }
+        dataOut<< line << endl;
+
+         
 
     }
     dataIn.close() ;
