@@ -7,8 +7,8 @@ customer name TEXT,
 customer_city TEXT, 
 customer state TEXT, 
 customer_country TEXT,
- customer_phone TEXT, 
- customer_email TEXT 
+customer_phone TEXT, 
+customer_email TEXT 
  );
 
 INSERT INTO

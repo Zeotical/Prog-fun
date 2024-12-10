@@ -38,23 +38,29 @@ cin >> filename ;
 dataIn.open(filename) ;
 
 if (dataIn) {
-    cout << "opened" << endl;
+    cout << "opened" << endl<<endl;
     // add timer to display output after a bit 
-    dataOut.open("placeholderrr.txt") ;
-    
+    // dataOut.open("placeholderrr.txt") ;
     while (getline(dataIn,line) ) {
         
-        cout << line << endl;
-
-        dataOut<< line << endl;
         if (!line.find("CREATE")) {
             int pos1= line.find(";") ;
 
             int pos2 = line.find(" ");
 
             string sub = line.substr(pos2,pos1-pos2) ;
-        
-            dataOut.open(sub); }
+    
+            dataOut.open(sub); 
+            dataOut << "CREATE" << sub<<";" << endl ;
+            cout << "CREATE" << sub<<";" << endl ;
+
+            while (getline(dataIn,line) ) {
+            cout << line << endl;
+
+            dataOut<< line << endl;    
+            } }
+
+ 
             
          
 
