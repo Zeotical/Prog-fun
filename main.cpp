@@ -18,6 +18,7 @@
 
 #include <iostream>
 #include <fstream> // header file for file access
+#include <string>
 
 using namespace std;
 
@@ -25,7 +26,8 @@ int main() {
 
 ifstream dataIn;  // inputs from a file
 ofstream dataOut; // outputs to a file
-string filename , line;
+string filename , line , fileOut, first;
+int pos1, pos2 ;
 
 
 cout << "Hello world"  << endl ;
@@ -39,12 +41,21 @@ if (dataIn) {
     cout << "opened" << endl;
     // add timer to display output after a bit 
     dataOut.open("placeholderrr.txt") ;
+    
     while (getline(dataIn,line) ) {
         
         cout << line << endl;
 
         dataOut<< line << endl;
+        if (!line.find("CREATE")) {
+            int pos1= line.find(";") ;
 
+            int pos2 = line.find(" ");
+
+            string sub = line.substr(pos2,pos1-pos2) ;
+        
+            dataOut.open(sub); }
+            
          
 
     }
