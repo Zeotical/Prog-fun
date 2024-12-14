@@ -1,8 +1,8 @@
 // ********************************************************* 
 // Program: YOUR_FILENAME.cpp 
 // Course: CCP6114 Programming Fundamentals
-// Lecture Class: 
-// Tutorial Class: 
+// Lecture Class: TC6L
+// Tutorial Class: T12L
 // Trimester: 2430
 // Member_1: ID | NAME | EMAIL | PHONE
 // Member_2: ID | NAME | EMAIL | PHONE
@@ -40,24 +40,23 @@ dataIn.open(filename) ;
 if (dataIn) {
     cout << "opened" << endl<<endl;
     // add timer to display output after a bit 
-    // dataOut.open("placeholderrr.txt") ;
-    while (getline(dataIn,line) ) {
+    while (getline(dataIn,line) ) { // Reads each line from the input file (dataIn) into the string 'line'
         
-        if (!line.find("CREATE")) {
-            int pos1= line.find(";") ;
+        if (!line.find("CREATE")) {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true.
+            int pos1= line.find(";") ; //Finds index of first ';'in the string
 
-            int pos2 = line.find(" ");
+            int pos2 = line.find(" ");  //Finds index of the first empty space (' ') in the string
 
-            string sub = line.substr(pos2,pos1-pos2) ;
+            string sub = line.substr(pos2,pos1-pos2) ; //Extracts the substring starting at pos2 with length (pos1-pos2)
     
-            dataOut.open(sub); 
-            dataOut << "CREATE" << sub<<";" << endl ;
-            cout << "CREATE" << sub<<";" << endl ;
+            dataOut.open(sub); //Opens the file using the extracted filename stored in 'sub'
+            dataOut << "CREATE" << sub<<";" << endl ; //Writes "CREATE <filename> ;" to the file
+            cout << "CREATE" << sub<<";" << endl ; // "  " to the terminal
 
             while (getline(dataIn,line) ) {
-            cout << line << endl;
+            cout << line << endl; //Writes each line to the terminal 
 
-            dataOut<< line << endl;    
+            dataOut<< line << endl; // " " to the outputfile  
             } }
 
  
@@ -72,8 +71,6 @@ else {
     cout << "Failed to open the file" ;
 
 }
-// dataOut.open(filename) ;
-
 
 return 0;
 }
