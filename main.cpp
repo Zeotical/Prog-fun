@@ -74,3 +74,21 @@ else {
 
 return 0;
 }
+
+
+/* Online C++ compiler to run C++ program online
+#include <iostream>
+using namespace std;
+int main() {
+   string line ="CREATE Table customer(" ;
+     if (!line.find("CREATE Table")) {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true
+            int pos1= line.find("(") ; //Finds index of first ';'in the string
+
+            int pos2 = line.find("ble");  //Finds index of the first empty space (' ') in the string
+
+            string sub = line.substr(pos1-pos2,pos2) ;
+            cout << sub ; }
+        
+
+    return 0;
+}*/
