@@ -53,25 +53,24 @@ if (dataIn) {
             dataOut << "CREATE" << dbName<<";" << endl ; //Writes "CREATE <filename> ;" to the file
             cout << "CREATE" << dbName <<";" << endl ; // "  " to the terminal
 
+            string tableName ;
+
             while (getline(dataIn,line) ) {
             cout << line << endl; //Writes each line to the terminal 
 
             dataOut<< line << endl; // " " to the outputfile  
                 
-
-            if (!line.find("CREATE TABLE") || !line.find("TABLES;")) {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true
-                if (!line.find("CREATE TABLE")){
+            if (!line.find("CREATE TABLE") || !line.find("TABLES;") ) {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true
+                if (!line.find("CREATE TABLE") ) {
                 int pos1= line.find("(") ; //Finds index of first ';'in the string
 
-                int pos2 = line.find("BLE");  //Finds index of the first empty space (' ') in the string
+                int pos2 = line.find("ABLE");  //Finds index of the first empty space (' ') in the string
 
-                string tableName = line.substr(pos1-pos2,pos2) ;
-                cout << tableName ;
-                dataOut << tableName ; }
+                tableName = line.substr(pos1-pos2,pos2) ; }
                 else if (!line.find("TABLES;")) {
-                cout << tableName ;
-                dataOut << tableName ;
-                }   } 
+                cout << tableName << endl ;
+                dataOut << tableName  << endl; 
+                 } }
 
              }}
 
@@ -90,6 +89,8 @@ else {
 
 return 0;
 }
+
+
 
 
 // #include <iostream>
