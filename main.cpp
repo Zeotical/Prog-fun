@@ -47,17 +47,33 @@ if (dataIn) {
 
             int pos2 = line.find(" ");  //Finds index of the first empty space (' ') in the string
 
-            string sub = line.substr(pos2,pos1-pos2) ; //Extracts the substring starting at pos2 with length (pos1-pos2)
+            string dbName = line.substr(pos2,pos1-pos2) ; //Extracts the substring starting at pos2 with length (pos1-pos2)
     
-            dataOut.open(sub); //Opens the file using the extracted filename stored in 'sub'
-            dataOut << "CREATE" << sub<<";" << endl ; //Writes "CREATE <filename> ;" to the file
-            cout << "CREATE" << sub<<";" << endl ; // "  " to the terminal
+            dataOut.open(dbName); //Opens the file using the extracted filename stored in 'sub'
+            dataOut << "CREATE" << dbName<<";" << endl ; //Writes "CREATE <filename> ;" to the file
+            cout << "CREATE" << dbName <<";" << endl ; // "  " to the terminal
 
             while (getline(dataIn,line) ) {
             cout << line << endl; //Writes each line to the terminal 
 
             dataOut<< line << endl; // " " to the outputfile  
-            } }
+                
+
+            if (!line.find("CREATE TABLE") || !line.find("TABLES;")) {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true
+                if (!line.find("CREATE TABLE")){
+                int pos1= line.find("(") ; //Finds index of first ';'in the string
+
+                int pos2 = line.find("BLE");  //Finds index of the first empty space (' ') in the string
+
+                string tableName = line.substr(pos1-pos2,pos2) ;
+                cout << tableName ;
+                dataOut << tableName ; }
+                else if (!line.find("TABLES;")) {
+                cout << tableName ;
+                dataOut << tableName ;
+                }   } 
+
+             }}
 
  
             
@@ -76,19 +92,22 @@ return 0;
 }
 
 
-/* Online C++ compiler to run C++ program online
-#include <iostream>
-using namespace std;
-int main() {
-   string line ="CREATE Table customer(" ;
-     if (!line.find("CREATE Table")) {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true
-            int pos1= line.find("(") ; //Finds index of first ';'in the string
+// #include <iostream>
+// using namespace std;
+// int main() {
+//    string line ="CREATE Table customer(" ;
+//      if (!line.find("CREATE Table")) {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true
+//             int pos1= line.find("(") ; //Finds index of first ';'in the string
 
-            int pos2 = line.find("ble");  //Finds index of the first empty space (' ') in the string
+//             int pos2 = line.find("ble");  //Finds index of the first empty space (' ') in the string
 
-            string sub = line.substr(pos1-pos2,pos2) ;
-            cout << sub ; }
+//             string tableName = line.substr(pos1-pos2,pos2) ;
+//             cout << sub ; }
+//         if (!line.find("TABLES")) {
+//             cout << sub ;
+//             dataOut << sub ;
+//         }    
         
 
-    return 0;
-}*/
+//     return 0;
+// }
