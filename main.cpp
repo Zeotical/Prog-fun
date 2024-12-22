@@ -77,7 +77,7 @@ if (dataIn) {
             vector <string> textType;     
             for (int col = 0 ; col <= 9 ; col++) {
                 if (!line.find("INT"))   {
-
+                // still didn't add row btw it's not a 2d array rn 
                 // smth like col[0][0] = line (will hold customer_id) then num is gonna whatever value from insert row    
                 int num = 2 ;  
                 numType.push_back(num) ;
