@@ -19,6 +19,7 @@
 #include <iostream>
 #include <fstream> // header file for file access
 #include <string>
+#include <vector> 
 
 using namespace std;
 
@@ -71,8 +72,24 @@ if (dataIn) {
                 cout << tableName << endl ;
                 dataOut << tableName  << endl; 
                  } }
+            
+            vector <int> numType ;
+            vector <string> textType;     
+            for (int col = 0 ; col <= 9 ; col++) {
+                if (!line.find("INT"))   {
 
-             }}
+                // smth like col[0][0] = line (will hold customer_id) then num is gonna whatever value from insert row    
+                int num = 2 ;  
+                numType.push_back(num) ;
+
+                } 
+                else if (!line.find("TEXT")) {
+                textType.push_back(line);
+                }
+                
+            }
+
+        }   }
 
  
             
