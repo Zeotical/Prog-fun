@@ -108,6 +108,8 @@ return 0;
 }
 
 
+
+
 // #include <iostream>
 // #include <fstream> // header file for file access
 // #include <string>
@@ -118,15 +120,15 @@ return 0;
 // int main() {
 
 // vector <string> car ={"1,'name1','city1','state1','country1','phone1','email1'"}  ;
-// string line = "value(1,'name1','city1','state1')"  ;
-
-// if (!line.find("value")){
-    
-//     int pos1= line.find("(") + 1 ; 
-//     int pos2 = line.find(")");
-    
-//     string sub = line.substr(pos1,pos2-pos1) ;
-//             cout << sub ; }
+// string line = "INSERT INTO customer(customer_id,customer_name,customer_city,customer_state,customer_country,customer_phone,customer_email) VALUES (4,'name4','city4','state4','country4','phone4','email4');"  ;
+// if (!line.find("INSERT INTO")) {
+//     if (line.find("VALUES")){
+        
+//         int pos1= line.find(" (") + 2 ; 
+//         int pos2 = line.find(");");
+        
+//         string sub = line.substr(pos1,pos2-pos1) ;
+//             cout << sub ; } }
     
 
 // for (string cars:car) {
@@ -134,7 +136,6 @@ return 0;
 // }
 
 // return 0; }
-
 
 // #include <iostream>
 // using namespace std;
