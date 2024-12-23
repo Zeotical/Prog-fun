@@ -108,6 +108,32 @@ return 0;
 }
 
 
+// #include <iostream>
+// #include <fstream> // header file for file access
+// #include <string>
+// #include <vector> 
+
+// using namespace std;
+
+// int main() {
+
+// vector <string> car ={"1,'name1','city1','state1','country1','phone1','email1'"}  ;
+// string line = "value(1,'name1','city1','state1')"  ;
+
+// if (!line.find("value")){
+    
+//     int pos1= line.find("(") + 1 ; 
+//     int pos2 = line.find(")");
+    
+//     string sub = line.substr(pos1,pos2-pos1) ;
+//             cout << sub ; }
+    
+
+// for (string cars:car) {
+//     cout << cars ;
+// }
+
+// return 0; }
 
 
 // #include <iostream>
