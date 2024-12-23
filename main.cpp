@@ -156,3 +156,56 @@ return 0;
 
 //     return 0;
 // }
+
+
+// #include <iostream>
+// #include <fstream> // header file for file access
+// #include <string>
+// #include <vector> 
+
+// using namespace std;
+
+// int main() {
+
+// vector <string> car ={"1,'name1','city1','state1','country1','phone1','email1'"}  ;
+// string line = "INSERT INTO customer(customer_id,customer_name,customer_city,customer_state,customer_country,customer_phone,customer_email) VALUES (4,'name4','city4','state4','country','phone4','email4');"  ;
+// if (!line.find("INSERT INTO")) {
+//     if (line.find("VALUES")){
+        
+//         int pos1= line.find(" (") + 2 ; 
+//         int pos2 = line.find(");");
+        
+//         string sub = line.substr(pos1,pos2-pos1) ;
+//             cout << sub<< endl ;
+//         if(sub.find(",")) {
+//          int pos1= 0 ;
+//          int pos2 = sub.find(",");
+
+//          string bus = sub.substr(pos1,pos2) ;
+//             cout << bus << endl ;
+            
+//           pos1= sub.find(bus) + sub.find(",'") + 2 ;
+//           pos2 = sub.find("',") - 3;
+//          bus = sub.substr(pos1,pos2) ;
+//             cout << bus << endl ; //name4
+
+//         pos1= sub.find(bus) + sub.find("','")  ;
+//         pos2 = sub.find("',") - 3  ;
+//          bus = sub.substr(pos1,pos2) ;
+//             cout << bus << endl ; //city4
+            
+//          pos1= sub.find(bus) + sub.find("','")  ;
+//         pos2 = sub.find("',") - 2;
+//          bus = sub.substr(pos1,pos2) ;
+//             cout << bus << endl ;    //state4
+            
+        
+//           } 
+//         } }
+    
+
+// // for (string cars:car) {
+// //     cout << cars ;
+// // }
+
+// return 0; }
