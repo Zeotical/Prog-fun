@@ -107,57 +107,6 @@ else {
 return 0;
 }
 
-
-
-
-// #include <iostream>
-// #include <fstream> // header file for file access
-// #include <string>
-// #include <vector> 
-
-// using namespace std;
-
-// int main() {
-
-// vector <string> car ={"1,'name1','city1','state1','country1','phone1','email1'"}  ;
-// string line = "INSERT INTO customer(customer_id,customer_name,customer_city,customer_state,customer_country,customer_phone,customer_email) VALUES (4,'name4','city4','state4','country4','phone4','email4');"  ;
-// if (!line.find("INSERT INTO")) {
-//     if (line.find("VALUES")){
-        
-//         int pos1= line.find(" (") + 2 ; 
-//         int pos2 = line.find(");");
-        
-//         string sub = line.substr(pos1,pos2-pos1) ;
-//             cout << sub ; } }
-    
-
-// for (string cars:car) {
-//     cout << cars ;
-// }
-
-// return 0; }
-
-// #include <iostream>
-// using namespace std;
-// int main() {
-//    string line ="CREATE Table customer(" ;
-//      if (!line.find("CREATE Table")) {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true
-//             int pos1= line.find("(") ; //Finds index of first ';'in the string
-
-//             int pos2 = line.find("ble");  //Finds index of the first empty space (' ') in the string
-
-//             string tableName = line.substr(pos1-pos2,pos2) ;
-//             cout << sub ; }
-//         if (!line.find("TABLES")) {
-//             cout << sub ;
-//             dataOut << sub ;
-//         }    
-        
-
-//     return 0;
-// }
-
-
 // #include <iostream>
 // #include <fstream> // header file for file access
 // #include <string>
@@ -169,6 +118,7 @@ return 0;
 
 // vector <string> car ={"1,'name1','city1','state1','country1','phone1','email1'"}  ;
 // string line = "INSERT INTO customer(customer_id,customer_name,customer_city,customer_state,customer_country,customer_phone,customer_email) VALUES (4,'name4','city4','state4','country','phone4','email4');"  ;
+
 // if (!line.find("INSERT INTO")) {
 //     if (line.find("VALUES")){
         
@@ -176,36 +126,42 @@ return 0;
 //         int pos2 = line.find(");");
         
 //         string sub = line.substr(pos1,pos2-pos1) ;
-//             cout << sub<< endl ;
+//         cout << sub<< endl ;
+     
 //         if(sub.find(",")) {
 //          int pos1= 0 ;
 //          int pos2 = sub.find(",");
 
 //          string bus = sub.substr(pos1,pos2) ;
-//             cout << bus << endl ;
+//          cout << bus << endl ;     
+//         int pos ;
+//         pos = sub.find(",") ;
+//         sub.erase(0, pos+1) ;
+//         while (!sub.find("'"))  {
             
-//           pos1= sub.find(bus) + sub.find(",'") + 2 ;
-//           pos2 = sub.find("',") - 3;
-//          bus = sub.substr(pos1,pos2) ;
-//             cout << bus << endl ; //name4
+//        // cout << sub<< endl ;
+//         if( sub.find("',") != std::string::npos) {
+//          pos1= sub.find("'") +1 ;
+//          pos2 = sub.find("',")-1;
 
-//         pos1= sub.find(bus) + sub.find("','")  ;
-//         pos2 = sub.find("',") - 3  ;
 //          bus = sub.substr(pos1,pos2) ;
-//             cout << bus << endl ; //city4
-            
-//          pos1= sub.find(bus) + sub.find("','")  ;
-//         pos2 = sub.find("',") - 2;
-//          bus = sub.substr(pos1,pos2) ;
-//             cout << bus << endl ;    //state4
-            
-        
-//           } 
-//         } }
-    
+//          cout << bus << endl ;
+//          pos = sub.find("',") ;
+//          sub.erase(0, pos + 2) ;    
+//         }  
+       
+//         else {
+//           pos1= sub.find("'") +1;
+//           pos2 = sub.find_last_of("'");
+//           bus = sub.substr(pos1,pos2-pos1) ;
+//           cout << bus << endl ;
+//           sub.clear();}
+          
+//      }
 
-// // for (string cars:car) {
-// //     cout << cars ;
-// // }
+//           } }
+//         } 
 
 // return 0; }
+
+
