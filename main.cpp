@@ -38,13 +38,13 @@ cin >> filename ;
 
 dataIn.open(filename) ;
 
-if (dataIn) {
+if (dataIn) { //outer if
     cout << "opened" << endl<<endl;
     // add timer to display output after a bit 
-    while (getline(dataIn,line) ) { // Reads each line from the input file (dataIn) into the string 'line'
+    while (getline(dataIn,line) ) { // Reads each line from the input file (dataIn) into the string 'line' //while loop
         
         if (!line.find("CREATE")) {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true.
-            int pos1= line.find(";") ; //Finds index of first ';'in the string
+            int pos1= line.find(";") ; //Finds index of first ';'in the string // inner if
 
             int pos2 = line.find(" ");  //Finds index of the first empty space (' ') in the string
 
@@ -56,7 +56,7 @@ if (dataIn) {
 
             string tableName ;
 
-            while (getline(dataIn,line) ) {
+            while (getline(dataIn,line) ) { // inner while
             cout << line << endl; //Writes each line to the terminal 
 
             dataOut<< line << endl; // " " to the outputfile  
@@ -88,7 +88,31 @@ if (dataIn) {
                 }
                 
             }
+            vector <string> car ;
+            // if (!line.find("INSERT INTO")) { // outer if
+            int row = 0 ;
+            if (!line.find("customer") || !line.find("SELECT * FROM")  ) { // outer inner if
+              if (line.find("VALUES")){ 
+                
+                int pos1= line.find(" (") + 2 ; 
+                int pos2 = line.find(");");
+                
+                string values = line.substr(pos1,pos2-pos1) ;
+                car.push_back(values) ;
+                for (string cars:car) {
+                cout << cars ;
+                } }
+                
+              else if (!line.find("SELECT * FROM")){
+               for (string cars:car) {
+                cout << cars << endl ;
+                }     } 
 
+            } // outer iinner if
+        row++  ;  
+        //}  //outer if
+ 
+            
         }   }
 
  
@@ -119,8 +143,8 @@ return 0;
 // vector <string> car ={"1,'name1','city1','state1','country1','phone1','email1'"}  ;
 // string line = "INSERT INTO customer(customer_id,customer_name,customer_city,customer_state,customer_country,customer_phone,customer_email) VALUES (4,'name4','city4','state4','country','phone4','email4');"  ;
 
-// if (!line.find("INSERT INTO")) {
-//     if (line.find("VALUES")){
+// if (!line.find("INSERT INTO")) { // outer if
+//     if (line.find("VALUES")){ // outer inner if
         
 //         int pos1= line.find(" (") + 2 ; 
 //         int pos2 = line.find(");");
@@ -128,7 +152,7 @@ return 0;
 //         string sub = line.substr(pos1,pos2-pos1) ;
 //         cout << sub<< endl ;
      
-//         if(sub.find(",")) {
+//         if(sub.find(",")) { //inner if
 //          int pos1= 0 ;
 //          int pos2 = sub.find(",");
 
@@ -157,11 +181,9 @@ return 0;
 //           cout << bus << endl ;
 //           sub.clear();}
           
-//      }
-
-//           } }
-//         } 
+//         } // while loop
+//         } // inner if
+//     } // outer iinner if
+// }  //outer if
 
 // return 0; }
-
-
