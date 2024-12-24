@@ -106,7 +106,7 @@ if (dataIn) { //outer if
              else if (!line.find("SELECT * FROM")){
                for (string cars:car) {
                 cout << cars << endl ;
-                dataOut << cars;
+                dataOut << cars << endl ;
                 }     } 
 
             } // outer iinner if
