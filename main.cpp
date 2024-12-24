@@ -42,7 +42,6 @@ if (dataIn) { //outer if
     cout << "opened" << endl<<endl;
     // add timer to display output after a bit 
     while (getline(dataIn,line) ) { // Reads each line from the input file (dataIn) into the string 'line' //while loop
-        
         if (!line.find("CREATE")) {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true.
             int pos1= line.find(";") ; //Finds index of first ';'in the string // inner if
 
@@ -55,12 +54,14 @@ if (dataIn) { //outer if
             cout << "CREATE" << dbName <<";" << endl ; // "  " to the terminal
 
             string tableName ;
+            vector <string> car ;
 
             while (getline(dataIn,line) ) { // inner while
             cout << line << endl; //Writes each line to the terminal 
 
             dataOut<< line << endl; // " " to the outputfile  
-                
+             //vector <string> car ;
+            //string valuess ;
             if (!line.find("CREATE TABLE") || !line.find("TABLES;") ) {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true
                 if (!line.find("CREATE TABLE") ) {
                 int pos1= line.find("(") ; //Finds index of first ';'in the string
@@ -88,24 +89,24 @@ if (dataIn) { //outer if
                 }
                 
             }
-            vector <string> car ;
-            // if (!line.find("INSERT INTO")) { // outer if
+            //if (!line.find("INSERT INTO")) { // outer if
             int row = 0 ;
-            if (!line.find("customer") || !line.find("SELECT * FROM")  ) { // outer inner if
-              if (line.find("VALUES")){ 
+            //vector <string> car ;
+             if (!line.find("customer") || !line.find("SELECT * FROM")  ) { // outer inner if
+
+              if (line.find("VALUES") != std::string::npos){ 
                 
                 int pos1= line.find(" (") + 2 ; 
                 int pos2 = line.find(");");
                 
-                string values = line.substr(pos1,pos2-pos1) ;
-                car.push_back(values) ;
-                for (string cars:car) {
-                cout << cars ;
-                } }
+                string valuess = line.substr(pos1,pos2-pos1) ;
+                car.push_back(valuess) ;
+                 }
                 
-              else if (!line.find("SELECT * FROM")){
+             else if (!line.find("SELECT * FROM")){
                for (string cars:car) {
                 cout << cars << endl ;
+                dataOut << cars;
                 }     } 
 
             } // outer iinner if
