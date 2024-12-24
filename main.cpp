@@ -55,6 +55,7 @@ if (dataIn) { //outer if
 
             string tableName ;
             vector <string> car ;
+            vector <string>bus ;
 
             while (getline(dataIn,line) ) { // inner while
             cout << line << endl; //Writes each line to the terminal 
@@ -91,8 +92,7 @@ if (dataIn) { //outer if
             }
             //if (!line.find("INSERT INTO")) { // outer if
             int row = 0 ;
-            //vector <string> car ;
-             if (!line.find("customer") || !line.find("SELECT * FROM")  ) { // outer inner if
+            if (!line.find(tableName) || !line.find("SELECT * FROM")  ) { // outer inner if
 
               if (line.find("VALUES") != std::string::npos){ 
                 
@@ -101,13 +101,48 @@ if (dataIn) { //outer if
                 
                 string valuess = line.substr(pos1,pos2-pos1) ;
                 car.push_back(valuess) ;
-                 }
+
+                if(valuess.find(",")) { //inner if
+                int pos1= 0 ;
+                int pos2 = valuess.find(",");
+
+                string bus = valuess.substr(pos1,pos2) ;
+                                car.push_back(bus) ;
+
+                //cout << bus << endl ;     
+                int pos ;
+                pos = valuess.find(",") ;
+                valuess.erase(0, pos+1) ;
+                while (!valuess.find("'"))  {
+                    
+            // cout << sub<< endl ;
+                if( valuess.find("',") != std::string::npos) {
+                pos1= valuess.find("'") +1 ;
+                pos2 = valuess.find("',")-1;
+
+                bus = valuess.substr(pos1,pos2) ;
+                                car.push_back(bus) ;
+
+                //cout << bus << endl ;
+                pos = valuess.find("',") ;
+                valuess.erase(0, pos + 2) ;    
+                }  
+            
+                else {
+                pos1= valuess.find("'") +1;
+                pos2 = valuess.find_last_of("'");
+                bus = valuess.substr(pos1,pos2-pos1) ;
+                                car.push_back(bus) ;
+
+                //cout << bus ;
+                valuess.clear();} } } }
+                        
                 
-             else if (!line.find("SELECT * FROM")){
-               for (string cars:car) {
-                cout << cars << endl ;
-                dataOut << cars << endl ;
-                }     } 
+            else if (!line.find("SELECT * FROM")){
+                for (string cars:car) {
+                    cout << cars << "," ;
+                    dataOut << cars << endl ;
+                    }     } 
 
             } // outer iinner if
         row++  ;  
@@ -187,4 +222,4 @@ return 0;
 //     } // outer iinner if
 // }  //outer if
 
-// return 0; }
+// return 0; } 
