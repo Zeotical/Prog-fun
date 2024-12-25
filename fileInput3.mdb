@@ -1,0 +1,36 @@
+CREATE fileOutput2.txt; 
+DATABASES;
+
+CREATE TABLE student( 
+student_id INT, 
+student_name TEXT, 
+student_DOB TEXT, 
+student_nationality TEXT,
+student_programme TEXT
+student_phone TEXT, 
+student_email TEXT 
+ );
+
+INSERT INTO
+student(student_id INT, student_name TEXT, student_DOB TEXT, student_nationality TEXT,student_programme TEXT,
+student_phone TEXT, student_email TEXT) VALUES (1,'namel','DOBl','nationalityl','programme1','phone1','email1');
+INSERT INTO
+student(student_id INT, student_name TEXT, student_DOB TEXT, student_nationality TEXT,student_programme TEXT,
+student_phone TEXT, student_email TEXT) VALUES (1,'namel','DOBl','nationalityl','programme1','phone1','email1');
+INSERT INTO
+student(student_id INT, student_name TEXT, student_DOB TEXT, student_nationality TEXT,student_programme TEXT,
+student_phone TEXT, student_email TEXT) VALUES (1,'namel','DOBl','nationalityl','programme1','phone1','email1');
+INSERT INTO
+student(student_id INT, student_name TEXT, student_DOB TEXT, student_nationality TEXT,student_programme TEXT,
+student_phone TEXT, student_email TEXT) VALUES (1,'namel','DOBl','nationalityl','programme1','phone1','email1');
+SELECT * FROM student;
+
+TABLES;
+
+UPDATE student SET student_email='email333' WHERE student_id=3; 
+SELECT * FROM student;
+
+DELETE FROM student WHERE student_id=4;
+SELECT * FROM student;
+
+SELECT COUNT(*) FROM student;
