@@ -95,33 +95,32 @@ if (dataIn) { //outer if
             if (!line.find(tableName) || !line.find("SELECT * FROM")  ) { // outer inner if
 
               if (line.find("VALUES") != std::string::npos){ 
-                
+                cout <<  endl ;
+
                 int pos1= line.find(" (") + 2 ; 
                 int pos2 = line.find(");");
-                
                 string valuess = line.substr(pos1,pos2-pos1) ;
-                car.push_back(valuess) ;
+                //car.push_back(valuess) ;
 
                 if(valuess.find(",")) { //inner if
                 int pos1= 0 ;
                 int pos2 = valuess.find(",");
 
                 string bus = valuess.substr(pos1,pos2) ;
-                                car.push_back(bus) ;
+                car.push_back(bus+",") ;
 
                 //cout << bus << endl ;     
                 int pos ;
                 pos = valuess.find(",") ;
                 valuess.erase(0, pos+1) ;
                 while (!valuess.find("'"))  {
-                    
             // cout << sub<< endl ;
                 if( valuess.find("',") != std::string::npos) {
                 pos1= valuess.find("'") +1 ;
                 pos2 = valuess.find("',")-1;
 
                 bus = valuess.substr(pos1,pos2) ;
-                                car.push_back(bus) ;
+                car.push_back(bus+",") ;
 
                 //cout << bus << endl ;
                 pos = valuess.find("',") ;
@@ -132,17 +131,21 @@ if (dataIn) { //outer if
                 pos1= valuess.find("'") +1;
                 pos2 = valuess.find_last_of("'");
                 bus = valuess.substr(pos1,pos2-pos1) ;
-                                car.push_back(bus) ;
+                car.push_back(bus) ;
 
                 //cout << bus ;
                 valuess.clear();} } } }
                         
                 
             else if (!line.find("SELECT * FROM")){
+            cout << "\n" ;
+            //car.clear();   
                 for (string cars:car) {
-                    cout << cars << "," ;
-                    dataOut << cars << endl ;
-                    }     } 
+                    cout << cars ;
+                    dataOut << cars << endl ; 
+                    }  
+            cout << "\n" ;
+            car.clear();   } 
 
             } // outer iinner if
         row++  ;  
@@ -167,59 +170,3 @@ else {
 return 0;
 }
 
-// #include <iostream>
-// #include <fstream> // header file for file access
-// #include <string>
-// #include <vector> 
-
-// using namespace std;
-
-// int main() {
-
-// vector <string> car ={"1,'name1','city1','state1','country1','phone1','email1'"}  ;
-// string line = "INSERT INTO customer(customer_id,customer_name,customer_city,customer_state,customer_country,customer_phone,customer_email) VALUES (4,'name4','city4','state4','country','phone4','email4');"  ;
-
-// if (!line.find("INSERT INTO")) { // outer if
-//     if (line.find("VALUES")){ // outer inner if
-        
-//         int pos1= line.find(" (") + 2 ; 
-//         int pos2 = line.find(");");
-        
-//         string sub = line.substr(pos1,pos2-pos1) ;
-//         cout << sub<< endl ;
-     
-//         if(sub.find(",")) { //inner if
-//          int pos1= 0 ;
-//          int pos2 = sub.find(",");
-
-//          string bus = sub.substr(pos1,pos2) ;
-//          cout << bus << endl ;     
-//         int pos ;
-//         pos = sub.find(",") ;
-//         sub.erase(0, pos+1) ;
-//         while (!sub.find("'"))  {
-            
-//        // cout << sub<< endl ;
-//         if( sub.find("',") != std::string::npos) {
-//          pos1= sub.find("'") +1 ;
-//          pos2 = sub.find("',")-1;
-
-//          bus = sub.substr(pos1,pos2) ;
-//          cout << bus << endl ;
-//          pos = sub.find("',") ;
-//          sub.erase(0, pos + 2) ;    
-//         }  
-       
-//         else {
-//           pos1= sub.find("'") +1;
-//           pos2 = sub.find_last_of("'");
-//           bus = sub.substr(pos1,pos2-pos1) ;
-//           cout << bus << endl ;
-//           sub.clear();}
-          
-//         } // while loop
-//         } // inner if
-//     } // outer iinner if
-// }  //outer if
-
-// return 0; } 
