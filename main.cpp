@@ -90,7 +90,6 @@ if (dataIn) { //outer if
                 }
                 
             }
-            //if (!line.find("INSERT INTO")) { // outer if
             int row = 0 ;
             if (!line.find(tableName) || !line.find("SELECT * FROM")  ) { // outer inner if
 
@@ -100,57 +99,18 @@ if (dataIn) { //outer if
                 int pos1= line.find(" (") + 2 ; 
                 int pos2 = line.find(");");
                 string valuess = line.substr(pos1,pos2-pos1) ;
-                //car.push_back(valuess) ;
-
-                if(valuess.find(",")) { //inner if
-                int pos1= 0 ;
-                int pos2 = valuess.find(",");
-
-                string bus = valuess.substr(pos1,pos2) ;
-                car.push_back(bus+",") ;
-
-                //cout << bus << endl ;     
-                int pos ;
-                pos = valuess.find(",") ;
-                valuess.erase(0, pos+1) ;
-                while (!valuess.find("'"))  {
-            // cout << sub<< endl ;
-                if( valuess.find("',") != std::string::npos) {
-                pos1= valuess.find("'") +1 ;
-                pos2 = valuess.find("',")-1;
-
-                bus = valuess.substr(pos1,pos2) ;
-                car.push_back(bus+",") ;
-
-                //cout << bus << endl ;
-                pos = valuess.find("',") ;
-                valuess.erase(0, pos + 2) ;    
-                }  
-            
-                else {
-                pos1= valuess.find("'") +1;
-                pos2 = valuess.find_last_of("'");
-                bus = valuess.substr(pos1,pos2-pos1) ;
-                car.push_back(bus) ;
-
-                //cout << bus ;
-                valuess.clear();} } } }
-                        
+                car.push_back(valuess) ; }
+      
                 
             else if (!line.find("SELECT * FROM")){
-            cout << "\n" ;
-            //car.clear();   
                 for (string cars:car) {
-                    cout << cars ;
-                    dataOut << cars << endl ; 
-                    }  
-            cout << "\n" ;
-            car.clear();   } 
-
-            } // outer iinner if
-        row++  ;  
-        //}  //outer if
- 
+                    while (cars.find("'")!= std::string::npos) {
+                        int pos = cars.find("'") ;
+                        cars.erase(pos, 1);
+                        if (cars.find("'")==std::string::npos){
+                        cout << cars << endl;
+                        dataOut << cars << endl ; }
+                    }  }   } }
             
         }   }
 
