@@ -19,10 +19,10 @@ student(student_id INT, student_name TEXT, student_DOB TEXT, student_nationality
 student_phone TEXT, student_email TEXT) VALUES (2,'name2','DOB2','nationality2','programme2','phone2','email2');
 INSERT INTO
 student(student_id INT, student_name TEXT, student_DOB TEXT, student_nationality TEXT,student_programme TEXT,
-student_phone TEXT, student_email TEXT) VALUES (1,'namel','DOBl','nationalityl','programme1','phone1','email1');
+student_phone TEXT, student_email TEXT) VALUES (3,'name3','DOB3','nationality3','programme3','phone3','email3');
 INSERT INTO
 student(student_id INT, student_name TEXT, student_DOB TEXT, student_nationality TEXT,student_programme TEXT,
-student_phone TEXT, student_email TEXT) VALUES (1,'namel','DOBl','nationalityl','programme1','phone1','email1');
+student_phone TEXT, student_email TEXT) VALUES (4,'name4','DOB4','nationality4','programme4','phone4','email4');
 SELECT * FROM student;
 
 TABLES;
