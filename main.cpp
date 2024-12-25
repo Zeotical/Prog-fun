@@ -28,7 +28,7 @@ int main() {
 
 ifstream dataIn;  // inputs from a file
 ofstream dataOut; // outputs to a file
-string filename , line , fileOut, first;
+string filename , line ;
 int pos1, pos2 ;
 
 
@@ -50,9 +50,9 @@ if (dataIn) { //outer if
             int pos2 = line.find(" ");  //Finds index of the first empty space (' ') in the string
 
             string dbName = line.substr(pos2,pos1-pos2) ; //Extracts the substring starting at pos2 with length (pos1-pos2)
-            dataOut.open(dbName); //Opens the file using the extracted filename stored in 'sub'
-            dataOut << "CREATE" << dbName<<";" << endl ; //Writes "CREATE <filename> ;" to the file
-            cout << "CREATE" << dbName <<";" << endl ; // "  " to the terminal
+            dataOut.open(dbName); //Opens the file using the extracted filename stored in 'dbName'
+            dataOut << "> CREATE" << dbName<<";" << endl ; //Writes "CREATE <filename> ;" to the file
+            cout << "> CREATE" << dbName <<";" << endl ; // "  " to the terminal
 
             string tableName ;
             vector <string> car ;
@@ -97,26 +97,27 @@ if (dataIn) { //outer if
                 
             }
             int row = 0 ;
-            if (!line.find(tableName) || !line.find("SELECT * FROM")  ) { // outer inner if
 
+            if (!line.find(tableName) || !line.find("SELECT * FROM")  ) { // outer inner if
               if (line.find("VALUES") != std::string::npos){ 
                 cout <<  endl ;
-
                 int pos1= line.find(" (") + 2 ; 
                 int pos2 = line.find(");");
                 string valuess = line.substr(pos1,pos2-pos1) ;
                 car.push_back(valuess) ;
                 //numType.push_back(2);
-                textType.push_back(valuess) ; }
+                textType.push_back(valuess) ; 
+                }
       
-                
+ 
             else if (!line.find("SELECT * FROM")){
-                
+
                 for (string cars:textType) {
                     while (cars.find("'")!= std::string::npos) {
                         int pos = cars.find("'") ;
                         cars.erase(pos, 1);
-                        if (cars.find("'")==std::string::npos){    
+                        if (cars.find("'")==std::string::npos){ 
+   
                         cout << cars << endl;
                         dataOut << cars << endl ; }
                     }  }   } }
@@ -130,11 +131,13 @@ if (dataIn) { //outer if
     }
     dataIn.close() ;
 
+
 }
 else {
     cout << "Failed to open the file" ;
 
 }
+
 
 return 0;
 }

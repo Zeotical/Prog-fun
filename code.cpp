@@ -365,3 +365,10 @@ return 0;
 // return 0;
 // }
 
+dataIn.open(fileOutput1.txt) ;
+    while (getline(dataIn,line) ) { // Reads each line from the input file (dataIn) into the string 'line' //while loop
+    dataOut.open("output.csv");
+    if (!line.find("SELECT * FROM")) {
+        dataOut << line ;
+    }
+    }
