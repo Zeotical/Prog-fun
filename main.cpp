@@ -56,6 +56,7 @@ if (dataIn) { //outer if
             string tableName ;
             vector <string> car ;
             vector <string> bus ;
+            vector <string> textType;     
 
             while (getline(dataIn,line) ) { // inner while
             cout << line << endl; //Writes each line to the terminal 
@@ -64,31 +65,33 @@ if (dataIn) { //outer if
              //vector <string> car ;
             //string valuess ;
 
-            if (!line.find("CREATE TABLE") || !line.find("TABLES;") ) {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true
+            if (!line.find("CREATE TABLE") || !line.find("TABLES;") || !line.find(tableName))  {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true
                 if (!line.find("CREATE TABLE") ) {
                 int pos1= line.find("TABLE") + 6 ; 
 
                 int pos2 = line.find("("); 
 
-                tableName = line.substr(pos1,pos2-pos1) ; 
-                cout << tableName; }
+                tableName = line.substr(pos1,pos2-pos1) ;  }
                 else if (!line.find("TABLES;")) {
                 cout << tableName << endl ;
                 dataOut << tableName  << endl; 
                  } }
             
-            vector <int> numType ;
-            vector <string> textType;     
-            for (int col = 0 ; col <= 9 ; col++) {
+            vector <string> text ;
+            //vector <string> textType;     
+               for (int col = 0 ; col <= 9 ; col++) {
                 if (!line.find("INT"))   {
                 // still didn't add row btw it's not a 2d array rn 
                 // smth like col[0][0] = line (will hold customer_id) then num is gonna whatever value from insert row    
-                int num = 2 ;  
-                numType.push_back(num) ;
+                // int num = 2 ;  
+                // numType.push_back(num) ;
+                textType.push_back(line);
+
 
                 } 
                 else if (!line.find("TEXT")) {
-                textType.push_back(line);
+                text.push_back(line);
+                cout << "HEYYYY" ;
                 }
                 
             }
@@ -101,15 +104,20 @@ if (dataIn) { //outer if
                 int pos1= line.find(" (") + 2 ; 
                 int pos2 = line.find(");");
                 string valuess = line.substr(pos1,pos2-pos1) ;
-                car.push_back(valuess) ; }
+                car.push_back(valuess) ;
+                //numType.push_back(2);
+                textType.push_back(valuess) ; }
       
                 
             else if (!line.find("SELECT * FROM")){
-                for (string cars:car) {
+                for (string type: text ){
+                    cout << type ;
+                }
+                for (string cars:textType) {
                     while (cars.find("'")!= std::string::npos) {
                         int pos = cars.find("'") ;
                         cars.erase(pos, 1);
-                        if (cars.find("'")==std::string::npos){
+                        if (cars.find("'")==std::string::npos){    
                         cout << cars << endl;
                         dataOut << cars << endl ; }
                     }  }   } }
