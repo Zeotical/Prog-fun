@@ -68,7 +68,7 @@ if (dataIn) { //outer if
             if (!line.find("DATABASES")){
             string filepath = std::filesystem::absolute(filename);
             cout << filepath ;
-        
+            dataOut << filepath ;
     }
             else if (!line.find("CREATE TABLE") || !line.find("TABLES;") || !line.find(tableName))  {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true
                 if (!line.find("CREATE TABLE") ) {
