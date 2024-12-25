@@ -65,11 +65,11 @@ if (dataIn) { //outer if
             //string valuess ;
             if (!line.find("CREATE TABLE") || !line.find("TABLES;") ) {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true
                 if (!line.find("CREATE TABLE") ) {
-                int pos1= line.find("(") ; //Finds index of first ';'in the string
+                int pos1= line.find_last_of(" ") + 1 ; 
 
-                int pos2 = line.find("ABLE");  //Finds index of the first empty space (' ') in the string
+                int pos2 = line.find("("); 
 
-                tableName = line.substr(pos1-pos2,pos2) ; }
+                tableName = line.substr(pos1,pos2-pos1) ; }
                 else if (!line.find("TABLES;")) {
                 cout << tableName << endl ;
                 dataOut << tableName  << endl; 
