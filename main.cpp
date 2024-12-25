@@ -20,6 +20,7 @@
 #include <fstream> // header file for file access
 #include <string>
 #include <vector> 
+#include <filesystem> // library to output filepath
 
 using namespace std;
 
@@ -42,13 +43,13 @@ if (dataIn) { //outer if
     cout << "opened" << endl<<endl;
     // add timer to display output after a bit 
     while (getline(dataIn,line) ) { // Reads each line from the input file (dataIn) into the string 'line' //while loop
+        
         if (!line.find("CREATE")) {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true.
             int pos1= line.find(";") ; //Finds index of first ';'in the string // inner if
 
             int pos2 = line.find(" ");  //Finds index of the first empty space (' ') in the string
 
             string dbName = line.substr(pos2,pos1-pos2) ; //Extracts the substring starting at pos2 with length (pos1-pos2)
-    
             dataOut.open(dbName); //Opens the file using the extracted filename stored in 'sub'
             dataOut << "CREATE" << dbName<<";" << endl ; //Writes "CREATE <filename> ;" to the file
             cout << "CREATE" << dbName <<";" << endl ; // "  " to the terminal
@@ -64,8 +65,12 @@ if (dataIn) { //outer if
             dataOut<< line << endl; // " " to the outputfile  
              //vector <string> car ;
             //string valuess ;
-
-            if (!line.find("CREATE TABLE") || !line.find("TABLES;") || !line.find(tableName))  {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true
+            if (!line.find("DATABASES")){
+            string filepath = std::filesystem::absolute(filename);
+            cout << filepath ;
+        
+    }
+            else if (!line.find("CREATE TABLE") || !line.find("TABLES;") || !line.find(tableName))  {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true
                 if (!line.find("CREATE TABLE") ) {
                 int pos1= line.find("TABLE") + 6 ; 
 
@@ -77,21 +82,17 @@ if (dataIn) { //outer if
                 dataOut << tableName  << endl; 
                  } }
             
-            vector <string> text ;
-            //vector <string> textType;     
+                
                for (int col = 0 ; col <= 9 ; col++) {
                 if (!line.find("INT"))   {
                 // still didn't add row btw it's not a 2d array rn 
                 // smth like col[0][0] = line (will hold customer_id) then num is gonna whatever value from insert row    
-                // int num = 2 ;  
-                // numType.push_back(num) ;
                 textType.push_back(line);
 
 
                 } 
                 else if (!line.find("TEXT")) {
-                text.push_back(line);
-                cout << "HEYYYY" ;
+                textType.push_back(line);
                 }
                 
             }
@@ -110,9 +111,7 @@ if (dataIn) { //outer if
       
                 
             else if (!line.find("SELECT * FROM")){
-                for (string type: text ){
-                    cout << type ;
-                }
+                
                 for (string cars:textType) {
                     while (cars.find("'")!= std::string::npos) {
                         int pos = cars.find("'") ;
