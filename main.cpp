@@ -55,7 +55,7 @@ if (dataIn) { //outer if
 
             string tableName ;
             vector <string> car ;
-            vector <string>bus ;
+            vector <string> bus ;
 
             while (getline(dataIn,line) ) { // inner while
             cout << line << endl; //Writes each line to the terminal 
@@ -63,13 +63,15 @@ if (dataIn) { //outer if
             dataOut<< line << endl; // " " to the outputfile  
              //vector <string> car ;
             //string valuess ;
+
             if (!line.find("CREATE TABLE") || !line.find("TABLES;") ) {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true
                 if (!line.find("CREATE TABLE") ) {
-                int pos1= line.find_last_of(" ") + 1 ; 
+                int pos1= line.find("TABLE") + 6 ; 
 
                 int pos2 = line.find("("); 
 
-                tableName = line.substr(pos1,pos2-pos1) ; }
+                tableName = line.substr(pos1,pos2-pos1) ; 
+                cout << tableName; }
                 else if (!line.find("TABLES;")) {
                 cout << tableName << endl ;
                 dataOut << tableName  << endl; 
