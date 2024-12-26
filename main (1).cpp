@@ -63,6 +63,7 @@ if (dataIn) { //outer if
             vector <string> bus ;
             vector <string> textType; 
             vector <int> numType ;
+
         while (getline(dataIn,line) ) { // inner while
             cout << line << endl; //Writes each line to the terminal 
             dataOut<< line << endl; // " " to the outputfile  
@@ -87,13 +88,21 @@ if (dataIn) { //outer if
             }                                   }
             
                 
-            
-            // else if (line.find("TEXT")) {
-            //     int pos = line.find("TEXT") ;
-            //     string result = line.substr(0,pos);
-            //     hat.push_back(result);
-            //                     //cout << result ;
-            // }
+            else if (line.find("INT")!= std::string::npos)   {
+                 int pos = line.find("INT") ;
+                 string integer = line.substr(0,pos);
+                 hat.push_back(integer);
+
+                 cout << result ; 
+            } 
+
+
+            else if (line.find("TEXT")!= std::string::npos) {
+                int pos = line.find("TEXT") ;
+                string text = line.substr(0,pos);
+                textType.push_back(text);
+                cout << result ;
+            }
 
            // else if (!line.find(tableName)   ) { // outer inner else if
             else  if (line.find("VALUES") != std::string::npos){ 
