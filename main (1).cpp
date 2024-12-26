@@ -60,7 +60,7 @@ if (dataIn) { //outer if
             string tableName ;
             string result ;
             vector <string> hat ;
-            vector <string> bus ;
+            vector <string> values ;
             vector <string> textType; 
             vector <int> numType ;
 
@@ -90,8 +90,8 @@ if (dataIn) { //outer if
                 
             else if (line.find("INT")!= std::string::npos)   {
                  int pos = line.find("INT") ;
-                 string integer = line.substr(0,pos);
-                 hat.push_back(integer);
+                 string integer = line.substr(0,pos); // FOR some reason gives insert too
+                 //textType.push_back(integer+",");
 
                  cout << result ; 
             } 
@@ -109,14 +109,19 @@ if (dataIn) { //outer if
                 cout <<  endl ;
                 int pos1= line.find(" (") + 2 ; 
                 int pos2 = line.find(");");
-                string valuess = line.substr(pos1,pos2-pos1) ;
+                string row = line.substr(pos1,pos2-pos1) ;
                 //numType.push_back(2);
-                textType.push_back(valuess) ; 
+                values.push_back(row) ; 
                } //}
       
  
             else if (line.find("SELECT * FROM")!= std::string::npos){
-                for (string cars:textType) {
+                for (string car:textType) {
+                        cout << car << "," ;
+                    }
+                 cout << endl ;
+    
+                for (string cars:values) {
                     while (cars.find("'")!= std::string::npos) {
                         int pos = cars.find("'") ;
                         cars.erase(pos, 1);
