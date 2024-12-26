@@ -365,10 +365,19 @@ return 0;
 // return 0;
 // }
 
-dataIn.open(fileOutput1.txt) ;
-    while (getline(dataIn,line) ) { // Reads each line from the input file (dataIn) into the string 'line' //while loop
-    dataOut.open("output.csv");
-    if (!line.find("SELECT * FROM")) {
-        dataOut << line ;
-    }
-    }
+// dataIn.open(fileOutput1.txt) ;
+//     while (getline(dataIn,line) ) { // Reads each line from the input file (dataIn) into the string 'line' //while loop
+//     dataOut.open("output.csv");
+//     if (!line.find("SELECT * FROM")) {
+//         dataOut << line ;
+//     }
+//     }
+
+// else if (!line.find(tableName+"_") && line.find("INT") ||!line.find(tableName+"_") && line.find("TEXT") ) {
+
+//                 int pos1 = line.find(" "); 
+// cout << "hLOEO" ;
+//                 tablecolextract = line.substr(0,pos1) ;
+//                 tablecols.append(tablecolextract+",");
+//                 cout << tablecols << endl;
+//                 } 

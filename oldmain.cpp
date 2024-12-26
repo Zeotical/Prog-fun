@@ -4,16 +4,16 @@
 // Lecture Class: TC6L
 // Tutorial Class: T12L
 // Trimester: 2430
-// Member_1: ID | NAME | EMAIL | PHONE
-// Member_2: ID | NAME | EMAIL | PHONE
-// Member_3: ID | NAME | EMAIL | PHONE
-// Member_4: ID | NAME | EMAIL | PHONE
+// Member_1: 243UC247PF | BASMALA MOHAMMED ALI ELIMAM | BASMALA.MOHAMED.ALI@student.mmu.edu.my | +966 50 849 3218
+// Member_2: 243UC246PD | ATODAN RIZKY PARIJOGO| ATODAN.RIZKY.PARIJOGO@student.mmu.edu.my | +62 811-8851-054
+// Member_3: 243UC247KC | NUR IRFAN BIN MD SHAHRUL NIZAM | NUR.IRFAN.MD@student.mmu.edu.my | +60 17-230 6376
+// Member_4: 243UC245K6 | KOK CHUEN HOU |  KOK.CHUEN.HOU@student.mmu.edu.my | +60 11-1984 8099
 // *********************************************************
 // Task Distribution
-// Member_1: 
-// Member_2: 
-// Member_3: 
-// Member_4:
+// Member_1: CREATE AND VIEW DB
+// Member_2: CREATE AND VIEW TABLE NAME AND COLUMNS
+// Member_3: INSERT ROWS TO TABLE
+// Member_4: VIEW TABLE IN CSV
 // *********************************************************
 
 #include <iostream>
@@ -53,11 +53,15 @@ if (dataIn) { //outer if
             dataOut.open(dbName); //Opens the file using the extracted filename stored in 'dbName'
             dataOut << "> CREATE" << dbName<<";" << endl ; //Writes "CREATE <filename> ;" to the file
             cout << "> CREATE" << dbName <<";" << endl ; // "  " to the terminal
-
+            
+            
             string tableName ;
-            vector <string> car ;
+            string result ;
+            vector <string> hat ;
             vector <string> bus ;
-            vector <string> textType;     
+            vector <string> textType; 
+            vector <int> numType ;
+
 
             while (getline(dataIn,line) ) { // inner while
             cout << line << endl; //Writes each line to the terminal 
@@ -65,35 +69,44 @@ if (dataIn) { //outer if
             dataOut<< line << endl; // " " to the outputfile  
              //vector <string> car ;
             //string valuess ;
+
             if (!line.find("DATABASES")){
             string filepath = std::filesystem::absolute(filename);
             cout << filepath ;
-            dataOut << filepath ;
-    }
-            else if (!line.find("CREATE TABLE") || !line.find("TABLES;") || !line.find(tableName))  {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true
+            dataOut << filepath ; 
+            }
+
+            else if (!line.find("CREATE TABLE") || !line.find("TABLES;") )  {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true
                 if (!line.find("CREATE TABLE") ) {
                 int pos1= line.find("TABLE") + 6 ; 
 
                 int pos2 = line.find("("); 
 
-                tableName = line.substr(pos1,pos2-pos1) ;  }
+                tableName = line.substr(pos1,pos2-pos1) ; 
+                }
                 else if (!line.find("TABLES;")) {
                 cout << tableName << endl ;
                 dataOut << tableName  << endl; 
-                 } }
+            }   }
             
                 
-               for (int col = 0 ; col <= 9 ; col++) {
-                if (!line.find("INT"))   {
-                // still didn't add row btw it's not a 2d array rn 
-                // smth like col[0][0] = line (will hold customer_id) then num is gonna whatever value from insert row    
-                textType.push_back(line);
+            else if (line.find("INT")!= std::string::npos)   {
+                 int pos = line.find("INT") ;
+                 string result = line.substr(0,pos);
+                 hat.push_back(result);
+
+                 cout << result ;
 
 
                 } 
-                else if (!line.find("TEXT")) {
-                textType.push_back(line);
-                }
+            else if (line.find("TEXT")) {
+                int pos = line.find("TEXT") ;
+                string result = line.substr(0,pos);
+                hat.push_back(result);
+                                cout << result ;
+
+
+                
                 
             }
             int row = 0 ;
@@ -104,14 +117,12 @@ if (dataIn) { //outer if
                 int pos1= line.find(" (") + 2 ; 
                 int pos2 = line.find(");");
                 string valuess = line.substr(pos1,pos2-pos1) ;
-                car.push_back(valuess) ;
                 //numType.push_back(2);
                 textType.push_back(valuess) ; 
                 }
       
  
             else if (!line.find("SELECT * FROM")){
-
                 for (string cars:textType) {
                     while (cars.find("'")!= std::string::npos) {
                         int pos = cars.find("'") ;
@@ -120,6 +131,7 @@ if (dataIn) { //outer if
    
                         cout << cars << endl;
                         dataOut << cars << endl ; }
+                        
                     }  }   } }
             
         }   }
@@ -134,7 +146,7 @@ if (dataIn) { //outer if
 
 }
 else {
-    cout << "Failed to open the file" ;
+    cout << "Failed to open the file" << endl ;
 
 }
 
