@@ -63,6 +63,7 @@ if (dataIn) { //outer if
             vector <string> values ;
             vector <string> textType; 
             vector <int> numType ;
+                int numofrows = 0 ;
 
         while (getline(dataIn,line) ) { // inner while
             cout << line << endl; //Writes each line to the terminal 
@@ -120,9 +121,8 @@ if (dataIn) { //outer if
                         cout << car << "," ;
                     }
                  cout << endl ;
-                int numofrows = 0 ;
                 for (string cars:values) {
-                    //numofrows++ ;
+                    numofrows++ ;
                     while (cars.find("'")!= std::string::npos) {
                         int pos = cars.find("'") ;
                         cars.erase(pos, 1);
@@ -131,9 +131,9 @@ if (dataIn) { //outer if
                         cout << cars << endl;
                         dataOut << cars << endl ; }
                     }  
-                //cout << "the num of rows are" << numofrows ;          
-                }        
-            }           
+                }  cout << "the num of rows are " << numofrows ;       
+            }         
+    
                                 
             
         }   
