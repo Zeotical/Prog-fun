@@ -88,25 +88,29 @@ if (dataIn) { //outer if
                 dataOut << tableName  << endl; 
             }                                   }
             
-                
-            else if (line.find("INT")!= std::string::npos)   {
-                 int pos = line.find("INT") ;
-                 string integer = line.substr(0,pos); // FOR some reason gives insert too
-                 //textType.push_back(integer+",");
+            else if ((line.find("INT")!= std::string::npos ||  line.find("TEXT")!= std::string::npos) && textType.size() <= 9) {
 
-                 cout << result ; 
-            } 
+            //for (int col = 0 ; textType.size() <= 9 ; col++) {
+        
+                if (line.find("INT")!= std::string::npos)   {
+                    int pos = line.find("INT") ;
+                    string integer = line.substr(0,pos); // FOR some reason gives insert too
+                    //textType.push_back(integer+",");
+
+                    cout << result ; 
+                } 
 
 
-            else if (line.find("TEXT")!= std::string::npos) {
-                int pos = line.find("TEXT") ;
-                string text = line.substr(0,pos);
-                textType.push_back(text);
-                cout << result ;
-            }
+                else if (line.find("TEXT")!= std::string::npos) {
+                    int pos = line.find("TEXT") ;
+                    string text = line.substr(0,pos);
+                    textType.push_back(text);
+                    
+                    cout << result ;
+            } } //}
 
            // else if (!line.find(tableName)   ) { // outer inner else if
-            else  if (line.find("VALUES") != std::string::npos){ 
+            else if (line.find("VALUES") != std::string::npos){ 
                 cout <<  endl ;
                 int pos1= line.find(" (") + 2 ; 
                 int pos2 = line.find(");");
@@ -131,6 +135,7 @@ if (dataIn) { //outer if
                         cout << cars << endl;
                         dataOut << cars << endl ; }
                     }  
+                cout <<  textType[1] ;
                 }  cout << "the num of rows are " << numofrows ;       
             }         
     

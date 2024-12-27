@@ -8,7 +8,12 @@ customer_city TEXT,
 customer_state TEXT, 
 customer_country TEXT, 
 customer phone TEXT, 
-customer_email TEXT 
+customer_email TEXT,
+bdaksmlk TEXT ,
+adad TEXT,
+wadwaqfq TEXT,
+dwwdwd TEXT,
+wdwfq TEXT, 
 );
 TABLES;
 
