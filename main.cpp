@@ -88,7 +88,7 @@ if (dataIn) { //outer if
                 dataOut << tableName  << endl; 
             }                                   }
             
-            else if (line.find("INT")!= std::string::npos && columns.size() <= 9 )   {
+            else if (line.find("INT")!= std::string::npos && line.find("INSERT")== std::string::npos && columns.size() <= 9 )   {
                     int pos = line.find("INT") ;
                     string integer = line.substr(0,pos); // FOR some reason gives insert too
                     columns.push_back(integer);
@@ -102,7 +102,7 @@ if (dataIn) { //outer if
                     
             } 
 
-           // else if (!line.find(tableName)   ) { // outer inner else if
+           // ROWS extracting each value 
             else if (line.find("VALUES") != std::string::npos){ 
                 cout <<  endl ;
                 int pos1= line.find(" (") + 2 ; 
@@ -116,7 +116,7 @@ if (dataIn) { //outer if
             else if (line.find("SELECT * FROM")!= std::string::npos){
                 for (string cols:columns) {
                         cout << cols << "," ;
-                        dataOut << cols < "," ;
+                        dataOut << cols << "," ;
                     }
                  cout << endl ;
                 for (string cars:values) {
@@ -129,7 +129,7 @@ if (dataIn) { //outer if
                         cout << cars << endl;
                         dataOut << cars << endl ; }
                     }  
-                cout <<  textType[1] ;
+                cout <<  columns[1] ;
                 }  cout << "the num of rows are " << numofrows ;       
             }         
     
