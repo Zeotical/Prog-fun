@@ -43,7 +43,7 @@ if (dataIn) { //outer if
     cout << "opened" << endl<<endl;
     // add timer to display output after a bit 
     while (getline(dataIn,line) ) { // Reads each line from the input file (dataIn) into the string 'line' //while loop
-        
+        //DATABASE OPERATIONS
         if (!line.find("CREATE")) {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true.
             int pos1= line.find(";") ; //Finds index of first ';'in the string // inner if
 
@@ -61,20 +61,20 @@ if (dataIn) { //outer if
             string result ;
             vector <string> hat ;
             vector <string> values ;
-            vector <string> textType; 
+            vector <string> columns; 
             vector <int> numType ;
                 int numofrows = 0 ;
 
         while (getline(dataIn,line) ) { // inner while
             cout << line << endl; //Writes each line to the terminal 
             dataOut<< line << endl; // " " to the outputfile  
-
+        //FILE PATH
             if (!line.find("DATABASES")){
             string filepath = std::filesystem::absolute(filename);
             cout << filepath ;
             dataOut << filepath ; 
             }
-
+        //TABLE OPERATIONS
             else if (!line.find("CREATE TABLE") || !line.find("TABLES;") )  {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true
                 if (!line.find("CREATE TABLE") ) {
                 int pos1= line.find("TABLE") + 6 ; 
@@ -88,23 +88,18 @@ if (dataIn) { //outer if
                 dataOut << tableName  << endl; 
             }                                   }
             
-
-        
-            else if (line.find("INT")!= std::string::npos && textType.size() <= 9 )   {
+            else if (line.find("INT")!= std::string::npos && columns.size() <= 9 )   {
                     int pos = line.find("INT") ;
                     string integer = line.substr(0,pos); // FOR some reason gives insert too
-                    //textType.push_back(integer+",");
-
-                    cout << result ; 
-                } 
+                    columns.push_back(integer);
+            } 
 
 
-                else if (line.find("TEXT")!= std::string::npos && textType.size() <=9 ) {
+            else if (line.find("TEXT")!= std::string::npos && columns.size() <=9 ) {
                     int pos = line.find("TEXT") ;
                     string text = line.substr(0,pos);
-                    textType.push_back(text);
+                    columns.push_back(text);
                     
-                    cout << result ;
             } 
 
            // else if (!line.find(tableName)   ) { // outer inner else if
@@ -117,10 +112,11 @@ if (dataIn) { //outer if
                 values.push_back(row) ; 
                } //}
       
- 
+            //CSV 
             else if (line.find("SELECT * FROM")!= std::string::npos){
-                for (string car:textType) {
-                        cout << car << "," ;
+                for (string cols:columns) {
+                        cout << cols << "," ;
+                        dataOut << cols < "," ;
                     }
                  cout << endl ;
                 for (string cars:values) {
