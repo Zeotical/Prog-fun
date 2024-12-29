@@ -148,6 +148,17 @@ if (dataIn) { //outer if
             } // inner if
         } // outer iinner if
 
+        else if (line.find("SELECT * FROM")!= std::string::npos){
+        for (int row = 0; row<= rows.size() ; row++){
+          if (row==0) { 
+            for(int col = 0 ; col <= columns.size() ; col ++){
+                cout << columns[col]  ; } }
+          else if (row>0) {
+            for(int col = 0 ; col < row ; col ++){
+                 cout << rows[row] ;
+                } row++ ; }
+            }
+        } 
 
 
            // ROWS extracting each value 
