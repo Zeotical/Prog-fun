@@ -62,7 +62,8 @@ if (dataIn) { //outer if
             vector <string> hat ;
             vector <string> values ;
             vector <string> columns; 
-            vector <string>  rows;
+            vector <string> rows ;
+            vector <vector<string>> twoDrows;
             vector <int> numType ;
                 int numofrows = 0 ;
 
@@ -105,7 +106,7 @@ if (dataIn) { //outer if
 
             //ROW STUFF 
             else if (line.find("VALUES")!= std::string::npos){ // outer inner if
-        
+            //rows.clear() ; //clears the vector not wanted 
             int pos1= line.find(" (") + 2 ; 
             int pos2 = line.find(");");
             
@@ -142,6 +143,8 @@ if (dataIn) { //outer if
             bus = sub.substr(pos1,pos2-pos1) ;
             cout << bus << endl ; //the last value
             rows.push_back(bus);
+                        twoDrows.push_back(rows) ;
+
             sub.clear();} // clears the sub so the loop stops
             
             } // while loop
@@ -149,15 +152,19 @@ if (dataIn) { //outer if
         } // outer iinner if
 
         else if (line.find("SELECT * FROM")!= std::string::npos){
-        for (int row = 0; row<= rows.size() ; row++){
-          if (row==0) { 
-            for(int col = 0 ; col <= columns.size() ; col ++){
-                cout << columns[col]  ; } }
-          else if (row>0) {
-            for(int col = 0 ; col < row ; col ++){
-                 cout << rows[row] ;
-                } row++ ; }
-            }
+
+            
+        for (int x=0 ; x<1 ; x++){
+            cout << twoDrows[2][7];}
+           // cout << row ; }
+        //   if (row==0) { 
+        //     for(int col = 0 ; col <= columns.size() ; col ++){
+        //         cout << columns[col]  ; } }
+        //   else if (row>0) {
+        //     for(int col = 0 ; col < row ; col ++){
+        //          cout << rows[row] ;
+        //         } row++ ; }
+        //     }
         } 
 
 
