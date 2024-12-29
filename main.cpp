@@ -62,6 +62,7 @@ if (dataIn) { //outer if
             vector <string> hat ;
             vector <string> values ;
             vector <string> columns; 
+            vector <string>  rows;
             vector <int> numType ;
                 int numofrows = 0 ;
 
@@ -102,36 +103,83 @@ if (dataIn) { //outer if
                     
             } 
 
+            //ROW STUFF 
+            else if (line.find("VALUES")!= std::string::npos){ // outer inner if
+        
+            int pos1= line.find(" (") + 2 ; 
+            int pos2 = line.find(");");
+            
+            string sub = line.substr(pos1,pos2-pos1) ;
+            //cout << sub<< endl ;  // prints this 4,'name4','city4','state4','country4','phone4','email4'
+        
+            if(sub.find(",")) { //inner if
+            int pos1= 0 ;
+            int pos2 = sub.find(",");
+
+            string bus = sub.substr(pos1,pos2) ;
+            cout << bus << endl ;     // prints the number
+            rows.push_back(bus) ;
+            int pos ;
+            pos = sub.find(",") ;
+            sub.erase(0, pos+1) ; //removes the number if i remember right
+            while (!sub.find("'"))  {
+                
+        // cout << sub<< endl ;
+            if( sub.find("',") != std::string::npos) {
+            pos1= sub.find("'") +1 ;
+            pos2 = sub.find("',")-1;
+
+            bus = sub.substr(pos1,pos2) ;
+            cout << bus << endl ; //all values between the number and the last value
+            rows.push_back(bus);
+            pos = sub.find("',") ;
+            sub.erase(0, pos + 2) ;    
+            }  
+       
+            else {
+            pos1= sub.find("'") +1;
+            pos2 = sub.find_last_of("'");
+            bus = sub.substr(pos1,pos2-pos1) ;
+            cout << bus << endl ; //the last value
+            rows.push_back(bus);
+            sub.clear();} // clears the sub so the loop stops
+            
+            } // while loop
+            } // inner if
+        } // outer iinner if
+
+
+
            // ROWS extracting each value 
-            else if (line.find("VALUES") != std::string::npos){ 
-                cout <<  endl ;
-                int pos1= line.find(" (") + 2 ; 
-                int pos2 = line.find(");");
-                string row = line.substr(pos1,pos2-pos1) ;
-                //numType.push_back(2);
-                values.push_back(row) ; 
-               } //}
+            // else if (line.find("VALUES") != std::string::npos){ 
+            //     cout <<  endl ;
+            //     int pos1= line.find(" (") + 2 ; 
+            //     int pos2 = line.find(");");
+            //     string row = line.substr(pos1,pos2-pos1) ;
+            //     //numType.push_back(2);
+            //     values.push_back(row) ; 
+            //    } 
       
             //CSV 
-            else if (line.find("SELECT * FROM")!= std::string::npos){
-                for (string cols:columns) {
-                        cout << cols << "," ;
-                        dataOut << cols << "," ;
-                    }
-                 cout << endl ;
-                for (string cars:values) {
-                    numofrows++ ;
-                    while (cars.find("'")!= std::string::npos) {
-                        int pos = cars.find("'") ;
-                        cars.erase(pos, 1);
-                        if (cars.find("'")==std::string::npos){ 
+            // else if (line.find("SELECT * FROM")!= std::string::npos){
+            //     for (string cols:columns) {
+            //             cout << cols << "," ;
+            //             dataOut << cols << "," ;
+            //         }
+            //      cout << endl ;
+            //     for (string cars:values) {
+            //         numofrows++ ;
+            //         while (cars.find("'")!= std::string::npos) {
+            //             int pos = cars.find("'") ;
+            //             cars.erase(pos, 1);
+            //             if (cars.find("'")==std::string::npos){ 
    
-                        cout << cars << endl;
-                        dataOut << cars << endl ; }
-                    }  
-                cout <<  columns[1] ;
-                }  cout << "the num of rows are " << numofrows ;       
-            }         
+            //             cout << cars << endl;
+            //             dataOut << cars << endl ; }
+            //         }  
+                //cout <<  columns[1] ;
+                //}  //cout << "the num of rows are " << numofrows ;       
+            //}         
     
                                 
             
