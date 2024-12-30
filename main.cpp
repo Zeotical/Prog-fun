@@ -106,7 +106,7 @@ if (dataIn) { //outer if
 
             //ROW STUFF 
             else if (line.find("VALUES")!= std::string::npos){ // outer inner if
-            //rows.clear() ; //clears the vector not wanted 
+            rows.clear() ; //clears the vector not wanted 
             int pos1= line.find(" (") + 2 ; 
             int pos2 = line.find(");");
             
@@ -143,7 +143,7 @@ if (dataIn) { //outer if
             bus = sub.substr(pos1,pos2-pos1) ;
             cout << bus << endl ; //the last value
             rows.push_back(bus);
-                        twoDrows.push_back(rows) ;
+            twoDrows.push_back(rows) ; /// variable an then from there add ++ 
 
             sub.clear();} // clears the sub so the loop stops
             
@@ -153,9 +153,12 @@ if (dataIn) { //outer if
 
         else if (line.find("SELECT * FROM")!= std::string::npos){
 
-            
-        for (int x=0 ; x<1 ; x++){
-            cout << twoDrows[2][7];}
+            int i = 0;
+        for (int x=0 ; x<twoDrows.size() ; x++){ //lol size is four so four rows yay
+            cout << twoDrows.size() ;
+            cout << twoDrows[i][x];
+            i++ ;
+            }
            // cout << row ; }
         //   if (row==0) { 
         //     for(int col = 0 ; col <= columns.size() ; col ++){
