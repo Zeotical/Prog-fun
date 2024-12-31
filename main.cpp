@@ -30,7 +30,14 @@ ifstream dataIn;  // inputs from a file
 ofstream dataOut; // outputs to a file
 string filename , line ;
 int pos1, pos2 ;
-
+// string tableName ;
+// string result ;
+// vector <string> hat ;
+// vector <string> values ;
+// vector <string> columns; 
+// vector <string> rows ;
+// vector <vector<string>> twoDrows;
+// vector <int> numType ;
 
 cout << "Hello world"  << endl ;
 
@@ -91,14 +98,14 @@ if (dataIn) { //outer if
             }                                   }
             
             else if (line.find("INT")!= std::string::npos && line.find("INSERT")== std::string::npos && columns.size() <= 9 )   {
-                    int pos = line.find("INT") ;
+                    int pos = line.find("INT") - 1 ;
                     string integer = line.substr(0,pos); // FOR some reason gives insert too
                     columns.push_back(integer);
             } 
 
 
             else if (line.find("TEXT")!= std::string::npos && columns.size() <=9 ) {
-                    int pos = line.find("TEXT") ;
+                    int pos = line.find("TEXT") - 1;
                     string text = line.substr(0,pos);
                     columns.push_back(text);
                     
@@ -144,7 +151,7 @@ if (dataIn) { //outer if
             cout << bus << endl ; //the last value
             rows.push_back(bus);
             twoDrows.push_back(rows) ; /// variable an then from there add ++ 
- cout << "Columns: " << twoDrows[0].size() << endl;
+ //cout << "Columns: " << twoDrows[1].size() << endl;
 
             sub.clear();} // clears the sub so the loop stops
             
@@ -153,12 +160,21 @@ if (dataIn) { //outer if
         } // outer iinner if
 
         else if (line.find("SELECT * FROM")!= std::string::npos){
-
-         for (int x=0 ; x< twoDrows.size(); x++){ //lol size is four so four rows yay
+        for(int col = 0 ; col < columns.size() ; col ++){
+            if (col==columns.size()-1) {
+                cout << columns[col]  ;
+            }
+            else {
+               cout << columns[col] << "," ; } }
+        cout << endl;       
+        for (int x=0 ; x< twoDrows.size(); x++){ //lol size is four so four rows yay
           for (int i=0 ; i< columns.size() ; i++) {
-
-            cout << twoDrows[x][i] << endl;;
-            } }
+            if (i==columns.size()-1) {
+               cout << twoDrows[x][i] ;
+            }
+            else {
+            cout << twoDrows[x][i] <<","; }
+            } cout << endl; }
            // cout << row ; }
         //   if (row==0) { 
         //     for(int col = 0 ; col <= columns.size() ; col ++){
