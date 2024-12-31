@@ -144,6 +144,7 @@ if (dataIn) { //outer if
             cout << bus << endl ; //the last value
             rows.push_back(bus);
             twoDrows.push_back(rows) ; /// variable an then from there add ++ 
+ cout << "Columns: " << twoDrows[0].size() << endl;
 
             sub.clear();} // clears the sub so the loop stops
             
@@ -153,12 +154,11 @@ if (dataIn) { //outer if
 
         else if (line.find("SELECT * FROM")!= std::string::npos){
 
-            int i = 0;
-        for (int x=0 ; x<twoDrows.size() ; x++){ //lol size is four so four rows yay
-            cout << twoDrows.size() ;
-            cout << twoDrows[i][x];
-            i++ ;
-            }
+         for (int x=0 ; x< twoDrows.size(); x++){ //lol size is four so four rows yay
+          for (int i=0 ; i< columns.size() ; i++) {
+
+            cout << twoDrows[x][i] << endl;;
+            } }
            // cout << row ; }
         //   if (row==0) { 
         //     for(int col = 0 ; col <= columns.size() ; col ++){
