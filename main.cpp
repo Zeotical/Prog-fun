@@ -36,6 +36,7 @@ string tableName ;
 vector <string> columns; 
 vector <string> rows ;
 vector <vector<string>> twoDrows;
+string sil("> ") ;
 
 cout << "Light Mariadb Interpreter"  << endl ;
 
@@ -61,24 +62,32 @@ if (dataIn) { //outer if
              }
 
         while (getline(dataIn,line) ) { // inner while
+        // INSERTING THIS > AT DA BEGIINING 
+        if (!line.find("DATABASES")|| !line.find("CREATE TABLE") || !line.find("TABLES;") || !line.find("INSERT INTO") || !line.find("SELECT * FROM") ) {
+                line.insert(0,sil) ;
+                cout << line << endl;
+                dataOut<< line << endl; 
+        }
+        else {
             cout << line << endl; //Writes each line to the terminal 
-            dataOut<< line << endl; // " " to the outputfile  
+            dataOut<< line << endl; } // " " to the outputfile  
         //FILE PATH
-            if (!line.find("DATABASES")){
+            if (!line.find("> DATABASES")){
             string filepath = std::filesystem::absolute(filename);
             cout << filepath ;
             dataOut << filepath ; 
             }
         //TABLE OPERATIONS
-            else if (!line.find("CREATE TABLE") || !line.find("TABLES;") )  {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true
-                if (!line.find("CREATE TABLE") ) {
+            else if (!line.find("> CREATE TABLE") || !line.find("> TABLES;") )  {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true
+               
+                if (!line.find("> CREATE TABLE") ) {
                 int pos1= line.find("TABLE") + 6 ; 
 
                 int pos2 = line.find("("); 
 
                 tableName = line.substr(pos1,pos2-pos1) ; 
                 }
-                else if (!line.find("TABLES;")) {
+                else if (!line.find("> TABLES;")) {
                 cout << tableName << endl ;
                 dataOut << tableName  << endl; 
             }                                   }
