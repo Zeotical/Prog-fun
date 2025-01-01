@@ -39,7 +39,7 @@ int pos1, pos2 ;
 // vector <vector<string>> twoDrows;
 // vector <int> numType ;
 
-cout << "Hello world"  << endl ;
+cout << "Light Mariadb Interpreter"  << endl ;
 
 cout << "Enter the filename: " <<endl ;
 cin >> filename ;
@@ -47,7 +47,6 @@ cin >> filename ;
 dataIn.open(filename) ;
 
 if (dataIn) { //outer if
-    cout << "opened" << endl<<endl;
     // add timer to display output after a bit 
     while (getline(dataIn,line) ) { // Reads each line from the input file (dataIn) into the string 'line' //while loop
         //DATABASE OPERATIONS
@@ -72,7 +71,6 @@ if (dataIn) { //outer if
             vector <string> rows ;
             vector <vector<string>> twoDrows;
             vector <int> numType ;
-                int numofrows = 0 ;
 
         while (getline(dataIn,line) ) { // inner while
             cout << line << endl; //Writes each line to the terminal 
@@ -117,109 +115,80 @@ if (dataIn) { //outer if
             int pos1= line.find(" (") + 2 ; 
             int pos2 = line.find(");");
             
-            string sub = line.substr(pos1,pos2-pos1) ;
-            //cout << sub<< endl ;  // prints this 4,'name4','city4','state4','country4','phone4','email4'
+            string all_values = line.substr(pos1,pos2-pos1) ; // takes out 4,'name4','city4','state4','country4','phone4','email4'
         
-            if(sub.find(",")) { //inner if
+            if(all_values.find(",")) { //inner if
             int pos1= 0 ;
-            int pos2 = sub.find(",");
+            int pos2 = all_values.find(",");
 
-            string bus = sub.substr(pos1,pos2) ;
-            cout << bus << endl ;     // prints the number
-            rows.push_back(bus) ;
+            string sep_values = all_values.substr(pos1,pos2) ;
+            //cout << sep_values << endl ;     // prints the number
+            rows.push_back(sep_values) ;
             int pos ;
-            pos = sub.find(",") ;
-            sub.erase(0, pos+1) ; //removes the number if i remember right
-            while (!sub.find("'"))  {
-                
-        // cout << sub<< endl ;
-            if( sub.find("',") != std::string::npos) {
-            pos1= sub.find("'") +1 ;
-            pos2 = sub.find("',")-1;
+            pos = all_values.find(",") ;
+            all_values.erase(0, pos+1) ; //removes the number if i remember right
 
-            bus = sub.substr(pos1,pos2) ;
-            cout << bus << endl ; //all values between the number and the last value
-            rows.push_back(bus);
-            pos = sub.find("',") ;
-            sub.erase(0, pos + 2) ;    
+            while (!all_values.find("'"))  {
+                
+            if( all_values.find("',") != std::string::npos) {
+            pos1= all_values.find("'") +1 ;
+            pos2 = all_values.find("',")-1;
+
+            sep_values = all_values.substr(pos1,pos2) ;
+            //cout << sep_values << endl ; //all values between the number and the last value
+            rows.push_back(sep_values);
+            pos = all_values.find("',") ;
+            all_values.erase(0, pos + 2) ;    
             }  
        
             else {
-            pos1= sub.find("'") +1;
-            pos2 = sub.find_last_of("'");
-            bus = sub.substr(pos1,pos2-pos1) ;
-            cout << bus << endl ; //the last value
-            rows.push_back(bus);
+            pos1= all_values.find("'") +1;
+            pos2 = all_values.find_last_of("'");
+            sep_values = all_values.substr(pos1,pos2-pos1) ;
+            //cout << sep_values << endl ; //the last value
+            rows.push_back(sep_values);
             twoDrows.push_back(rows) ; /// variable an then from there add ++ 
- //cout << "Columns: " << twoDrows[1].size() << endl;
-
-            sub.clear();} // clears the sub so the loop stops
+            all_values.clear();} // clears the sub so the loop stops
             
             } // while loop
             } // inner if
         } // outer iinner if
 
+        //CSV 
         else if (line.find("SELECT * FROM")!= std::string::npos){
+        //COLUMNS CSV  
         for(int col = 0 ; col < columns.size() ; col ++){
             if (col==columns.size()-1) {
                 cout << columns[col]  ;
+                dataOut << columns[col] ;
             }
             else {
-               cout << columns[col] << "," ; } }
-        cout << endl;       
+               cout << columns[col] << "," ; 
+               dataOut << columns[col]; 
+            } 
+        }
+
+        cout << endl; 
+        dataOut << endl;   
+
+        //ROWS CSV
         for (int x=0 ; x< twoDrows.size(); x++){ //lol size is four so four rows yay
           for (int i=0 ; i< columns.size() ; i++) {
             if (i==columns.size()-1) {
                cout << twoDrows[x][i] ;
+               dataOut << twoDrows[x][i] ;
             }
             else {
-            cout << twoDrows[x][i] <<","; }
-            } cout << endl; }
-           // cout << row ; }
-        //   if (row==0) { 
-        //     for(int col = 0 ; col <= columns.size() ; col ++){
-        //         cout << columns[col]  ; } }
-        //   else if (row>0) {
-        //     for(int col = 0 ; col < row ; col ++){
-        //          cout << rows[row] ;
-        //         } row++ ; }
-        //     }
+            cout << twoDrows[x][i] <<"," ;
+            dataOut<< twoDrows[x][i] <<","; 
+            }
+          } 
+            cout << endl;
+            dataOut << endl ;
+        }
+           
         } 
-
-
-           // ROWS extracting each value 
-            // else if (line.find("VALUES") != std::string::npos){ 
-            //     cout <<  endl ;
-            //     int pos1= line.find(" (") + 2 ; 
-            //     int pos2 = line.find(");");
-            //     string row = line.substr(pos1,pos2-pos1) ;
-            //     //numType.push_back(2);
-            //     values.push_back(row) ; 
-            //    } 
-      
-            //CSV 
-            // else if (line.find("SELECT * FROM")!= std::string::npos){
-            //     for (string cols:columns) {
-            //             cout << cols << "," ;
-            //             dataOut << cols << "," ;
-            //         }
-            //      cout << endl ;
-            //     for (string cars:values) {
-            //         numofrows++ ;
-            //         while (cars.find("'")!= std::string::npos) {
-            //             int pos = cars.find("'") ;
-            //             cars.erase(pos, 1);
-            //             if (cars.find("'")==std::string::npos){ 
-   
-            //             cout << cars << endl;
-            //             dataOut << cars << endl ; }
-            //         }  
-                //cout <<  columns[1] ;
-                //}  //cout << "the num of rows are " << numofrows ;       
-            //}         
-    
-                                
-            
+        cout << endl ; // add space after final row is displayed                                  
         }   
 
  
