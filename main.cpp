@@ -28,16 +28,14 @@ int main() {
 
 ifstream dataIn;  // inputs from a file
 ofstream dataOut; // outputs to a file
+
+// VARIABLES + VECTORS
 string filename , line ;
 int pos1, pos2 ;
-// string tableName ;
-// string result ;
-// vector <string> hat ;
-// vector <string> values ;
-// vector <string> columns; 
-// vector <string> rows ;
-// vector <vector<string>> twoDrows;
-// vector <int> numType ;
+string tableName ;
+vector <string> columns; 
+vector <string> rows ;
+vector <vector<string>> twoDrows;
 
 cout << "Light Mariadb Interpreter"  << endl ;
 
@@ -61,16 +59,6 @@ if (dataIn) { //outer if
             cout << "> CREATE" << dbName <<";" << endl ; // "  " to the terminal
             
              }
-
-
-            string tableName ;
-            string result ;
-            vector <string> hat ;
-            vector <string> values ;
-            vector <string> columns; 
-            vector <string> rows ;
-            vector <vector<string>> twoDrows;
-            vector <int> numType ;
 
         while (getline(dataIn,line) ) { // inner while
             cout << line << endl; //Writes each line to the terminal 
@@ -186,9 +174,9 @@ if (dataIn) { //outer if
             cout << endl;
             dataOut << endl ;
         }
-           
-        } 
         cout << endl ; // add space after final row is displayed                                  
+  
+        } 
         }   
 
  
