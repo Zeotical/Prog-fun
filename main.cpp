@@ -161,7 +161,7 @@ if (dataIn) { //outer if
             }
             else {
                cout << columns[col] << "," ; 
-               dataOut << columns[col]; 
+               dataOut << columns[col] << "," ; 
             } 
         }
 
