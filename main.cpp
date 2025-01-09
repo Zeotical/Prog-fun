@@ -170,8 +170,8 @@ if (dataIn) { //outer if
 
         //ROWS CSV
         for (int x=0 ; x< twoDrows.size(); x++){ //lol size is four so four rows yay
-          for (int i=0 ; i< columns.size() ; i++) {
-            if (i==columns.size()-1) {
+          for (int i=0 ; i< rows.size() ; i++) {
+            if (i==rows.size()-1) {
                cout << twoDrows[x][i] ;
                dataOut << twoDrows[x][i] ;
             }
