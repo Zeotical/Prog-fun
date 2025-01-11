@@ -30,7 +30,7 @@ ifstream dataIn;  // inputs from a file
 ofstream dataOut; // outputs to a file
 
 // VARIABLES + VECTORS
-string filename , line ;
+string filename , line, dbName ;
 int pos1, pos2 ;
 string tableName ;
 vector <string> columns; 
@@ -110,10 +110,10 @@ if (dataIn) { //outer if
             else if (line.find("VALUES")!= std::string::npos){ // outer inner if
             rows.clear() ; //clears the vector not wanted 
             int pos1= line.find(" (") + 2 ; 
-            int pos2 = line.find(");");
+            int pos2 = line.find(";");
             
             string all_values = line.substr(pos1,pos2-pos1) ; // takes out 4,'name4','city4','state4','country4','phone4','email4'
-        
+        //cout << all_values;
             if(all_values.find(",")) { //inner if
             int pos1= 0 ;
             int pos2 = all_values.find(",");
@@ -170,9 +170,10 @@ if (dataIn) { //outer if
 
         //ROWS CSV
         for (int x=0 ; x< twoDrows.size(); x++){ //lol size is four so four rows yay
-          for (int i=0 ; i< rows.size() ; i++) {
-            if (i==rows.size()-1) {
+          for (int i=0 ; i<rows.size(); i++) { //twoDrows[x].back().size() figure out this row thing 
+            if (i==rows.size() - 1) {
                cout << twoDrows[x][i] ;
+        cout <<   twoDrows[x].back().size() ;     
                dataOut << twoDrows[x][i] ;
             }
             else {
@@ -201,7 +202,24 @@ else {
     cout << "Failed to open the file" << endl ;
 
 }
-
+//CSV file code ez
+// dataOut.close() ;
+// dataOut.open("hi.csv") ;
+// for (int x=0 ; x< twoDrows.size(); x++){ //lol size is four so four rows yay
+//           for (int i=0 ; i<= twoDrows[x].back().size(); i++) {
+//             if (i==twoDrows[x].back().size()) {
+//                cout << twoDrows[x][i] ;
+//         cout <<   twoDrows[x].back().size() ;     
+//                dataOut << twoDrows[x][i] ;
+//             }
+//             else {
+//             cout << twoDrows[x][i] <<"," ;
+//             dataOut<< twoDrows[x][i] <<","; 
+//             }
+//           } 
+//             cout << endl;
+//             dataOut << endl ;
+//         }
 
 return 0;
 }
