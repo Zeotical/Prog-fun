@@ -63,7 +63,7 @@ if (dataIn) { //outer if
 
         while (getline(dataIn,line) ) { // inner while
         // INSERTING THIS > AT DA BEGIINING 
-        if (!line.find("DATABASES")|| !line.find("CREATE TABLE") || !line.find("TABLES;") || !line.find("INSERT INTO") || !line.find("SELECT * FROM") ) {
+        if (!line.find("DATABASES")|| !line.find("CREATE TABLE") || !line.find("TABLES;") || !line.find("INSERT INTO") || !line.find("SELECT * FROM") || !line.find("SELECT COUNT(*)") || !line.find("DELETE FROM") || !line.find("UPDATE") ) {
                 line.insert(0,sil) ;
                 cout << line << endl;
                 dataOut<< line << endl; 
