@@ -29,6 +29,11 @@ int main() {
 ifstream dataIn;  // inputs from a file
 ofstream dataOut; // outputs to a file
 
+// FUNCTIONS
+void createDb (string, ofstream &);
+void markKeywords (string &, string ,ofstream &);
+
+
 // VARIABLES + VECTORS
 string filename , line, dbName ;
 int pos1, pos2 ;
@@ -36,7 +41,7 @@ string tableName ;
 vector <string> columns; 
 vector <string> rows ;
 vector <vector<string>> twoDrows;
-string sil("> ") ;
+string symbol("> ") ;
 
 cout << "Light Mariadb Interpreter"  << endl ;
 
@@ -49,28 +54,13 @@ if (dataIn) { //outer if
     // add timer to display output after a bit 
     while (getline(dataIn,line) ) { // Reads each line from the input file (dataIn) into the string 'line' //while loop
         //DATABASE OPERATIONS
-        if (!line.find("CREATE")) {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true.
-            int pos1= line.find(";") ; //Finds index of first ';'in the string // inner if
-
-            int pos2 = line.find(" ");  //Finds index of the first empty space (' ') in the string
-
-            string dbName = line.substr(pos2,pos1-pos2) ; //Extracts the substring starting at pos2 with length (pos1-pos2)
-            dataOut.open(dbName); //Opens the file using the extracted filename stored in 'dbName'
-            dataOut << "> CREATE" << dbName<<";" << endl ; //Writes "CREATE <filename> ;" to the file
-            cout << "> CREATE" << dbName <<";" << endl ; // "  " to the terminal
-            
-             }
-
+        createDb(line,dataOut) ;
         while (getline(dataIn,line) ) { // inner while
-        // INSERTING THIS > AT DA BEGIINING 
-        if (!line.find("DATABASES")|| !line.find("CREATE TABLE") || !line.find("TABLES;") || !line.find("INSERT INTO") || !line.find("SELECT * FROM") || !line.find("SELECT COUNT(*)") || !line.find("DELETE FROM") || !line.find("UPDATE") ) {
-                line.insert(0,sil) ;
-                cout << line << endl;
-                dataOut<< line << endl; 
-        }
-        else {
-            cout << line << endl; //Writes each line to the terminal 
-            dataOut<< line << endl; } // " " to the outputfile  
+        // INSERTING THIS > AT THE BEGIINING 
+        markKeywords(line,symbol,dataOut);
+        
+        cout << line << endl; //Writes each line to the terminal 
+        dataOut<< line << endl;  // " " to the outputfile  
         //FILE PATH
             if (!line.find("> DATABASES")){
             string filepath = std::filesystem::absolute(filename);
@@ -224,3 +214,28 @@ else {
 return 0;
 }
 
+//FUNCTIONS
+
+void createDb(string line, ofstream &dataOut) {
+ if (!line.find("CREATE")) {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true.
+            int pos1= line.find(";") ; //Finds index of first ';'in the string // inner if
+
+            int pos2 = line.find(" ");  //Finds index of the first empty space (' ') in the string
+
+            string dbName = line.substr(pos2,pos1-pos2) ; //Extracts the substring starting at pos2 with length (pos1-pos2)
+            dataOut.open(dbName); //Opens the file using the extracted filename stored in 'dbName'
+            dataOut << "> CREATE" << dbName<<";" << endl ; //Writes "CREATE <filename> ;" to the file
+            cout << "> CREATE" << dbName <<";" << endl ; // "  " to the terminal
+            
+             }
+
+}
+
+void markKeywords(string &line, string symbol ,ofstream &dataOut){
+    if (!line.find("DATABASES")|| !line.find("CREATE TABLE") || 
+            !line.find("TABLES;") || !line.find("INSERT INTO") || 
+            !line.find("SELECT * FROM") || !line.find("SELECT COUNT(*)") || 
+            !line.find("DELETE FROM") || !line.find("UPDATE") ) {
+                line.insert(0,symbol) ; }
+
+}
