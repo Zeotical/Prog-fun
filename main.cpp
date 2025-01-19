@@ -192,7 +192,8 @@ do{
             // ROW COUNTER
             else if (line.find("SELECT COUNT(*)")!= std::string::npos)
             {
-                cout << "Rows counts :" << twoDrows.size() << endl;
+                cout << twoDrows.size() << endl;
+                dataOut  << twoDrows.size() << endl;
             }
             }   
 
@@ -203,8 +204,15 @@ do{
         }
         dataIn.close() ;
 
-     
-   // CSV file code ez
+        
+    }
+        else {
+            cout << "Failed to open the file" << endl ; // put this at daaaa end
+
+        }
+
+    
+    //CSV file code ez
     dataOut.close() ;
     do
     {
@@ -216,11 +224,9 @@ do{
     
     if (output_choice == 'Y')
     {
-     
-            cout << "Enter a name for the csv file." << endl;
+         cout << "Enter a name for the csv file." << endl;
             cin >> output_name;
             dataOut.open(output_name+".csv") ; 
-        
     } 
     for (int x=0 ; x< twoDrows.size(); x++){ //lol size is four so four rows yay
               for (int i=0 ; i<= twoDrows[x].back().size(); i++) {
@@ -242,11 +248,16 @@ do{
     do
     {
         cout << endl << "Continue? [Y/N]" << endl;
-        cin >> menu;
+        cin >> menu; // can jus capitalize this
+        if (menu=='Y' || menu=='y'){
+            twoDrows.clear();
+            dataOut.close();
+        }
         menu = toupper(menu);
-    } while (menu != 'Y' && menu != 'N');
-
-     }} while (menu != 'N');
+    }
+    while (menu != 'Y' && menu != 'N');
+}
+    while (menu != 'N');
     
     return 0;
 }
