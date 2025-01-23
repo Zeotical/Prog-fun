@@ -29,9 +29,10 @@ int main() {
 ifstream dataIn;  // inputs from a file
 ofstream dataOut; // outputs to a file
 
-// FUNCTIONS
-void createDb (string, ofstream &);
-void markKeywords (string &, string ,ofstream &);
+// FUNCTIONS PROTOTYPES
+void createDb (string, ofstream&);
+void markKeywords (string&, string ,ofstream&);
+void displayFilepath (string, string, ofstream&);
 
 
 // VARIABLES + VECTORS
@@ -62,13 +63,10 @@ if (dataIn) { //outer if
         cout << line << endl; //Writes each line to the terminal 
         dataOut<< line << endl;  // " " to the outputfile  
         //FILE PATH
-            if (!line.find("> DATABASES")){
-            string filepath = std::filesystem::absolute(filename);
-            cout << filepath ;
-            dataOut << filepath ; 
-            }
+        displayFilepath(line,filename,dataOut);
+            
         //TABLE OPERATIONS
-            else if (!line.find("> CREATE TABLE") || !line.find("> TABLES;") )  {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true
+            if (!line.find("> CREATE TABLE") || !line.find("> TABLES;") )  {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true
                
                 if (!line.find("> CREATE TABLE") ) {
                 int pos1= line.find("TABLE") + 6 ; 
@@ -237,5 +235,14 @@ void markKeywords(string &line, string symbol ,ofstream &dataOut){
             !line.find("SELECT * FROM") || !line.find("SELECT COUNT(*)") || 
             !line.find("DELETE FROM") || !line.find("UPDATE") ) {
                 line.insert(0,symbol) ; }
+
+}
+
+void displayFilepath(string line,string filename, ofstream &dataOut){
+    if (!line.find("> DATABASES")){
+            string filepath = std::filesystem::absolute(filename);
+            cout << filepath ;
+            dataOut << filepath ; 
+            }
 
 }
