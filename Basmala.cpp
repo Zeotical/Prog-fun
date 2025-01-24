@@ -34,6 +34,8 @@ void createDb (string, ofstream&);
 void markKeywords (string&, string ,ofstream&);
 void displayFilepath (string, string, ofstream&);
 void createTable (string,string&,ofstream&);
+void extractColumns (string, vector<string>&, ofstream&);
+void extractRows (string, vector<string> & ,vector<vector<string>>&, ofstream&);
 
 
 // VARIABLES + VECTORS
@@ -58,78 +60,28 @@ if (dataIn) { //outer if
         //DATABASE OPERATIONS
         createDb(line,dataOut) ;
         while (getline(dataIn,line) ) { // inner while
+
         // INSERTING THIS > AT THE BEGINNING OF EACH KEYWORD
-        markKeywords(line,symbol,dataOut);
+         markKeywords(line,symbol,dataOut);
         
         cout << line << endl; //Writes each line to the terminal 
         dataOut<< line << endl;  // " " to the outputfile  
+
         //FILE PATH
-        displayFilepath(line,filename,dataOut);
+         displayFilepath(line,filename,dataOut);
             
         //TABLE OPERATIONS
-           createTable(line,tableName,dataOut);
-            // Columns
-            if (line.find("INT")!= std::string::npos && line.find("INSERT")== std::string::npos && columns.size() <= 9 )   {
-                    int pos = line.find("INT") - 1 ;
-                    string integer = line.substr(0,pos); // FOR some reason gives insert too
-                    columns.push_back(integer);
-            } 
+         createTable(line,tableName,dataOut);
 
+        // Columns
+         extractColumns(line,columns,dataOut);
 
-            else if (line.find("TEXT")!= std::string::npos && columns.size() <=9 ) {
-                    int pos = line.find("TEXT") - 1;
-                    string text = line.substr(0,pos);
-                    columns.push_back(text);
-                    
-            } 
-
-            //ROWS
-            else if (line.find("VALUES")!= std::string::npos){ // outer inner if
-            rows.clear() ; //clears the vector not wanted 
-            int pos1= line.find(" (") + 2 ; 
-            int pos2 = line.find(";");
+        //ROWS
+         extractRows(line,rows,twoDrows,dataOut);
             
-            string all_values = line.substr(pos1,pos2-pos1) ; // takes out 4,'name4','city4','state4','country4','phone4','email4'
-        //cout << all_values;
-            if(all_values.find(",")) { //inner if
-            int pos1= 0 ;
-            int pos2 = all_values.find(",");
-
-            string sep_values = all_values.substr(pos1,pos2) ;
-            //cout << sep_values << endl ;     // prints the number
-            rows.push_back(sep_values) ;
-            int pos ;
-            pos = all_values.find(",") ;
-            all_values.erase(0, pos+1) ; //removes the number if i remember right
-
-            while (!all_values.find("'"))  {
-                
-            if( all_values.find("',") != std::string::npos) {
-            pos1= all_values.find("'") +1 ;
-            pos2 = all_values.find("',")-1;
-
-            sep_values = all_values.substr(pos1,pos2) ;
-            //cout << sep_values << endl ; //all values between the number and the last value
-            rows.push_back(sep_values);
-            pos = all_values.find("',") ;
-            all_values.erase(0, pos + 2) ;    
-            }  
-       
-            else {
-            pos1= all_values.find("'") +1;
-            pos2 = all_values.find_last_of("'");
-            sep_values = all_values.substr(pos1,pos2-pos1) ;
-            //cout << sep_values << endl ; //the last value
-            rows.push_back(sep_values);
-            twoDrows.push_back(rows) ; /// variable an then from there add ++ 
-            all_values.clear();} // clears the sub so the loop stops
-            
-            } // while loop
-            } // inner if
-        } // outer iinner if
 
         //CSV 
-        else if (line.find("SELECT * FROM")!= std::string::npos){
+        if (line.find("SELECT * FROM")!= std::string::npos){
         //COLUMNS CSV  
         for(int col = 0 ; col < columns.size() ; col ++){
             if (col==columns.size()-1) {
@@ -247,4 +199,67 @@ void createTable(string line, string &tableName ,ofstream &dataOut){
                 cout << tableName << endl ;
                 dataOut << tableName  << endl; 
             }                                   }
+}
+
+void extractColumns(string line,vector <string> &columns,ofstream &dataOut){
+    if (line.find("INT")!= std::string::npos && line.find("INSERT")== std::string::npos && columns.size() <= 9 )   {
+                    int pos = line.find("INT") - 1 ;
+                    string integer = line.substr(0,pos); // FOR some reason gives insert too
+                    columns.push_back(integer);
+            } 
+
+
+    else if (line.find("TEXT")!= std::string::npos && columns.size() <=9 ) {
+                    int pos = line.find("TEXT") - 1;
+                    string text = line.substr(0,pos);
+                    columns.push_back(text);
+                    
+            } 
+}
+
+void extractRows(string line, vector<string> &rows, vector<vector<string>> &twoDrows, ofstream &dataOut){
+if (line.find("VALUES")!= std::string::npos){ // outer inner if
+            rows.clear() ; //clears the vector not wanted 
+            int pos1= line.find(" (") + 2 ; 
+            int pos2 = line.find(";");
+            
+            string all_values = line.substr(pos1,pos2-pos1) ; // takes out 4,'name4','city4','state4','country4','phone4','email4'
+        //cout << all_values;
+            if(all_values.find(",")) { //inner if
+            int pos1= 0 ;
+            int pos2 = all_values.find(",");
+
+            string sep_values = all_values.substr(pos1,pos2) ;
+            //cout << sep_values << endl ;     // prints the number
+            rows.push_back(sep_values) ;
+            int pos ;
+            pos = all_values.find(",") ;
+            all_values.erase(0, pos+1) ; //removes the number if i remember right
+
+            while (!all_values.find("'"))  {
+                
+            if( all_values.find("',") != std::string::npos) {
+            pos1= all_values.find("'") +1 ;
+            pos2 = all_values.find("',")-1;
+
+            sep_values = all_values.substr(pos1,pos2) ;
+            //cout << sep_values << endl ; //all values between the number and the last value
+            rows.push_back(sep_values);
+            pos = all_values.find("',") ;
+            all_values.erase(0, pos + 2) ;    
+            }  
+       
+            else {
+            pos1= all_values.find("'") +1;
+            pos2 = all_values.find_last_of("'");
+            sep_values = all_values.substr(pos1,pos2-pos1) ;
+            //cout << sep_values << endl ; //the last value
+            rows.push_back(sep_values);
+            twoDrows.push_back(rows) ; /// variable an then from there add ++ 
+            all_values.clear();} // clears the sub so the loop stops
+            
+            } // while loop
+            } // inner if
+        } // outer iinner if
+
 }
