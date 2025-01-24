@@ -36,6 +36,9 @@ void displayFilepath (string, string, ofstream&);
 void createTable (string,string&,ofstream&);
 void extractColumns (string, vector<string>&, ofstream&);
 void extractRows (string, vector<string> & ,vector<vector<string>>&, ofstream&);
+void displayCols (string, vector<string> & , ofstream&);
+void displayRows (string, vector<string> & ,vector<vector<string>>&, ofstream&);
+void displayTable (string,vector<string> & ,vector<vector<string>>&,ofstream&) ;
 
 
 // VARIABLES + VECTORS
@@ -82,17 +85,8 @@ if (dataIn) { //outer if
 
         //CSV 
         if (line.find("SELECT * FROM")!= std::string::npos){
-        //COLUMNS CSV  
-        for(int col = 0 ; col < columns.size() ; col ++){
-            if (col==columns.size()-1) {
-                cout << columns[col]  ;
-                dataOut << columns[col] ;
-            }
-            else {
-               cout << columns[col] << "," ; 
-               dataOut << columns[col] << "," ; 
-            } 
-        }
+            displayCols(line,columns,dataOut);
+       
 
         cout << endl; 
         dataOut << endl;   
@@ -262,4 +256,18 @@ if (line.find("VALUES")!= std::string::npos){ // outer inner if
             } // inner if
         } // outer iinner if
 
+}
+
+void displayCols(string line, vector<string> &columns, ofstream &dataOut){
+ //COLUMNS display 
+        for(int col = 0 ; col < columns.size() ; col ++){
+            if (col==columns.size()-1) {
+                cout << columns[col]  ;
+                dataOut << columns[col] ;
+            }
+            else {
+               cout << columns[col] << "," ; 
+               dataOut << columns[col] << "," ; 
+            } 
+        }
 }
