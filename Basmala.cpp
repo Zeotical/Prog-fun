@@ -33,6 +33,7 @@ ofstream dataOut; // outputs to a file
 void createDb (string, ofstream&);
 void markKeywords (string&, string ,ofstream&);
 void displayFilepath (string, string, ofstream&);
+void createTable (string,string&,ofstream&);
 
 
 // VARIABLES + VECTORS
@@ -57,7 +58,7 @@ if (dataIn) { //outer if
         //DATABASE OPERATIONS
         createDb(line,dataOut) ;
         while (getline(dataIn,line) ) { // inner while
-        // INSERTING THIS > AT THE BEGIINING 
+        // INSERTING THIS > AT THE BEGINNING OF EACH KEYWORD
         markKeywords(line,symbol,dataOut);
         
         cout << line << endl; //Writes each line to the terminal 
@@ -66,21 +67,9 @@ if (dataIn) { //outer if
         displayFilepath(line,filename,dataOut);
             
         //TABLE OPERATIONS
-            if (!line.find("> CREATE TABLE") || !line.find("> TABLES;") )  {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true
-               
-                if (!line.find("> CREATE TABLE") ) {
-                int pos1= line.find("TABLE") + 6 ; 
-
-                int pos2 = line.find("("); 
-
-                tableName = line.substr(pos1,pos2-pos1) ; 
-                }
-                else if (!line.find("> TABLES;")) {
-                cout << tableName << endl ;
-                dataOut << tableName  << endl; 
-            }                                   }
-            
-            else if (line.find("INT")!= std::string::npos && line.find("INSERT")== std::string::npos && columns.size() <= 9 )   {
+           createTable(line,tableName,dataOut);
+            // Columns
+            if (line.find("INT")!= std::string::npos && line.find("INSERT")== std::string::npos && columns.size() <= 9 )   {
                     int pos = line.find("INT") - 1 ;
                     string integer = line.substr(0,pos); // FOR some reason gives insert too
                     columns.push_back(integer);
@@ -94,7 +83,7 @@ if (dataIn) { //outer if
                     
             } 
 
-            //ROW STUFF 
+            //ROWS
             else if (line.find("VALUES")!= std::string::npos){ // outer inner if
             rows.clear() ; //clears the vector not wanted 
             int pos1= line.find(" (") + 2 ; 
@@ -176,11 +165,6 @@ if (dataIn) { //outer if
   
         } 
         }   
-
- 
-            
-         
-
     }
     dataIn.close() ;
 
@@ -234,7 +218,9 @@ void markKeywords(string &line, string symbol ,ofstream &dataOut){
             !line.find("TABLES;") || !line.find("INSERT INTO") || 
             !line.find("SELECT * FROM") || !line.find("SELECT COUNT(*)") || 
             !line.find("DELETE FROM") || !line.find("UPDATE") ) {
-                line.insert(0,symbol) ; }
+            
+            line.insert(0,symbol) ; 
+            }
 
 }
 
@@ -245,4 +231,20 @@ void displayFilepath(string line,string filename, ofstream &dataOut){
             dataOut << filepath ; 
             }
 
+}
+
+void createTable(string line, string &tableName ,ofstream &dataOut){
+    if (!line.find("> CREATE TABLE") || !line.find("> TABLES;") )  { //removing this will do nothin   //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true
+               
+                if (!line.find("> CREATE TABLE") ) {
+                int pos1= line.find("TABLE") + 6 ; 
+
+                int pos2 = line.find("("); 
+
+                tableName = line.substr(pos1,pos2-pos1) ; 
+                }
+                else if (!line.find("> TABLES;")) {
+                cout << tableName << endl ;
+                dataOut << tableName  << endl; 
+            }                                   }
 }
