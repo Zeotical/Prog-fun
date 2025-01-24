@@ -88,30 +88,15 @@ if (dataIn) { //outer if
             displayCols(line,columns,dataOut);
        
 
-        cout << endl; 
+        cout << endl; //space b/w columns and rows
         dataOut << endl;   
 
-        //ROWS CSV
-        for (int x=0 ; x< twoDrows.size(); x++){ //lol size is four so four rows yay
-          for (int i=0 ; i<rows.size(); i++) { //twoDrows[x].back().size() figure out this row thing 
-            if (i==rows.size() - 1) {
-               cout << twoDrows[x][i] ;
-        //cout <<   twoDrows[x].back().size() ;     
-               dataOut << twoDrows[x][i] ;
-            }
-            else {
-            cout << twoDrows[x][i] <<"," ;
-            dataOut<< twoDrows[x][i] <<","; 
-            }
-          } 
-            cout << endl;
-            dataOut << endl ;
-        }
-        cout << endl ; // add space after final row is displayed                                  
+        displayRows(line,rows,twoDrows,dataOut);
+                                        
   
         } 
-        }   
-    }
+        }   //inner while loop 
+    }//outer while loop
     dataIn.close() ;
 
 
@@ -270,4 +255,25 @@ void displayCols(string line, vector<string> &columns, ofstream &dataOut){
                dataOut << columns[col] << "," ; 
             } 
         }
+}
+
+void displayRows(string line, vector<string> &rows, vector<vector<string>> &twoDrows, ofstream &dataOut){
+     //ROWS CSV
+        for (int x=0 ; x< twoDrows.size(); x++){ //lol size is four so four rows yay
+          for (int i=0 ; i<rows.size(); i++) { //twoDrows[x].back().size() figure out this row thing 
+            if (i==rows.size() - 1) {
+               cout << twoDrows[x][i] ;
+        //cout <<   twoDrows[x].back().size() ;     
+               dataOut << twoDrows[x][i] ;
+            }
+            else {
+            cout << twoDrows[x][i] <<"," ;
+            dataOut<< twoDrows[x][i] <<","; 
+            }
+          } 
+            cout << endl;
+            dataOut << endl ; //space b/w each rows
+        }
+        cout << endl ; // add space after final row is displayed maybe remove this?
+        dataOut << endl ;
 }
