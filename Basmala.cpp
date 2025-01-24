@@ -38,7 +38,8 @@ void extractColumns (string, vector<string>&, ofstream&);
 void extractRows (string, vector<string> & ,vector<vector<string>>&, ofstream&);
 void displayCols (string, vector<string> & , ofstream&);
 void displayRows (string, vector<string> & ,vector<vector<string>>&, ofstream&);
-void displayTable (string,vector<string> & ,vector<vector<string>>&,ofstream&) ;
+void displayTable (string,vector<string> &,vector<string> & ,vector<vector<string>>&,ofstream&) ;
+
 
 
 // VARIABLES + VECTORS
@@ -76,25 +77,16 @@ if (dataIn) { //outer if
         //TABLE OPERATIONS
          createTable(line,tableName,dataOut);
 
-        // Columns
+        //Extracting Columns
          extractColumns(line,columns,dataOut);
 
-        //ROWS
+        //Exatracting ROWS
          extractRows(line,rows,twoDrows,dataOut);
             
 
-        //CSV 
-        if (line.find("SELECT * FROM")!= std::string::npos){
-            displayCols(line,columns,dataOut);
-       
-
-        cout << endl; //space b/w columns and rows
-        dataOut << endl;   
-
-        displayRows(line,rows,twoDrows,dataOut);
-                                        
-  
-        } 
+        //Display Table
+         displayTable(line,columns,rows,twoDrows,dataOut);
+        
         }   //inner while loop 
     }//outer while loop
     dataIn.close() ;
@@ -276,4 +268,18 @@ void displayRows(string line, vector<string> &rows, vector<vector<string>> &twoD
         }
         cout << endl ; // add space after final row is displayed maybe remove this?
         dataOut << endl ;
+}
+
+void displayTable(string line,  vector<string> &columns, vector<string> &rows, vector<vector<string>> &twoDrows, ofstream &dataOut){
+    if (line.find("SELECT * FROM")!= std::string::npos){
+         displayCols(line,columns,dataOut);
+       
+
+         cout << endl; //space b/w columns and rows
+         dataOut << endl;   
+
+         displayRows(line,rows,twoDrows,dataOut);
+                                        
+  
+        } 
 }
