@@ -1,5 +1,5 @@
 // ********************************************************* 
-// Program: YOUR_FILENAME.cpp 
+// Program: main.cpp 
 // Course: CCP6114 Programming Fundamentals
 // Lecture Class: TC6L
 // Tutorial Class: T12L
