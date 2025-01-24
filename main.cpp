@@ -43,20 +43,22 @@ void displayTable (string,vector<string> &,vector<string> & ,vector<vector<strin
 
 
 // VARIABLES + VECTORS
-string filename , line, dbName ;
+string filename , line, dbName , output_name;
 int pos1, pos2 ;
 string tableName ;
 vector <string> columns; 
 vector <string> rows ;
 vector <vector<string>> twoDrows;
 string symbol("> ") ;
+char menu, output_choice;
 
-cout << "Light Mariadb Interpreter"  << endl ;
+do{
+    cout << "Light Mariadb Interpreter"  << endl ;
 
-cout << "Enter the filename: " <<endl ;
-cin >> filename ;
+    cout << "Enter the filename: " <<endl ;
+    cin >> filename ;
 
-dataIn.open(filename) ;
+    dataIn.open(filename) ;
 
 if (dataIn) { //outer if
     // add timer to display output after a bit 
@@ -86,37 +88,71 @@ if (dataIn) { //outer if
 
         //Display Table
          displayTable(line,columns,rows,twoDrows,dataOut);
+
+        // ROW COUNTER
+            if (line.find("SELECT COUNT(*)")!= std::string::npos)
+            {
+                cout << twoDrows.size() << endl;
+                dataOut  << twoDrows.size() << endl;
+            }
         
         }   //inner while loop 
+        
     }//outer while loop
     dataIn.close() ;
-
 
 }
 else {
     cout << "Failed to open the file" << endl ;
 
 }
-//CSV file code ez
-// dataOut.close() ;
-// dataOut.open("hi.csv") ;
-// for (int x=0 ; x< twoDrows.size(); x++){ //lol size is four so four rows yay
-//           for (int i=0 ; i<= twoDrows[x].back().size(); i++) {
-//             if (i==twoDrows[x].back().size()) {
-//                cout << twoDrows[x][i] ;
-//         cout <<   twoDrows[x].back().size() ;     
-//                dataOut << twoDrows[x][i] ;
-//             }
-//             else {
-//             cout << twoDrows[x][i] <<"," ;
-//             dataOut<< twoDrows[x][i] <<","; 
-//             }
-//           } 
-//             cout << endl;
-//             dataOut << endl ;
-//         }
+ //CSV output file 
+    dataOut.close() ;
+    do
+    {
+        cout << "Do you want to output this file as a csv file?" << endl;
+        cout << "If yes, please input \"Y\" or \"N\" for no." << endl;
+        cin >> output_choice;
+        output_choice = toupper(output_choice);
+    } while (output_choice != 'Y' && output_choice != 'N');
+    
+    if (output_choice == 'Y')
+    {
+         cout << "Enter a name for the csv file." << endl;
+            cin >> output_name;
+            dataOut.open(output_name+".csv") ; 
+    } 
+    for (int x=0 ; x< twoDrows.size(); x++){ //lol size is four so four rows yay
+              for (int i=0 ; i<= twoDrows[x].back().size(); i++) {
+                if (i==twoDrows[x].back().size()) {
+                   cout << twoDrows[x][i] ;
+            cout <<   twoDrows[x].back().size() ;     
+                   dataOut << twoDrows[x][i] ;
+                }
+                else {
+                cout << twoDrows[x][i] <<"," ;
+                dataOut<< twoDrows[x][i] <<","; 
+                }
+              } 
+                cout << endl;
+                dataOut << endl ;
+            }
 
-return 0;
+    
+    do
+    {
+        cout << endl << "Continue? [Y/N]" << endl;
+        cin >> menu; // can jus capitalize this
+        if (menu=='Y' || menu=='y'){
+            twoDrows.clear();
+            dataOut.close();
+        }
+        menu = toupper(menu);
+    } while (menu != 'Y' && menu != 'N');
+
+} while (menu != 'N');
+    
+    return 0;
 }
 
 //FUNCTIONS
@@ -125,14 +161,14 @@ void createDb(string line, ofstream &dataOut) {
  if (!line.find("CREATE")) {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true.
             int pos1= line.find(";") ; //Finds index of first ';'in the string // inner if
 
-            int pos2 = line.find(" ");  //Finds index of the first empty space (' ') in the string
+                int pos2 = line.find(" ");  //Finds index of the first empty space (' ') in the string
 
-            string dbName = line.substr(pos2,pos1-pos2) ; //Extracts the substring starting at pos2 with length (pos1-pos2)
-            dataOut.open(dbName); //Opens the file using the extracted filename stored in 'dbName'
-            dataOut << "> CREATE" << dbName<<";" << endl ; //Writes "CREATE <filename> ;" to the file
-            cout << "> CREATE" << dbName <<";" << endl ; // "  " to the terminal
-            
-             }
+                string dbName = line.substr(pos2,pos1-pos2) ; //Extracts the substring starting at pos2 with length (pos1-pos2)
+                dataOut.open(dbName); //Opens the file using the extracted filename stored in 'dbName'
+                dataOut << "> CREATE" << dbName<<";" << endl ; //Writes "CREATE <filename> ;" to the file
+                cout << "> CREATE" << dbName <<";" << endl ; // "  " to the terminal
+                
+                }
 
 }
 
@@ -162,7 +198,7 @@ void createTable(string line, string &tableName ,ofstream &dataOut){
                 if (!line.find("> CREATE TABLE") ) {
                 int pos1= line.find("TABLE") + 6 ; 
 
-                int pos2 = line.find("("); 
+                    int pos2 = line.find("("); 
 
                 tableName = line.substr(pos1,pos2-pos1) ; 
                 }
@@ -200,38 +236,38 @@ if (line.find("VALUES")!= std::string::npos){ // outer inner if
             int pos1= 0 ;
             int pos2 = all_values.find(",");
 
-            string sep_values = all_values.substr(pos1,pos2) ;
-            //cout << sep_values << endl ;     // prints the number
-            rows.push_back(sep_values) ;
-            int pos ;
-            pos = all_values.find(",") ;
-            all_values.erase(0, pos+1) ; //removes the number if i remember right
+                string sep_values = all_values.substr(pos1,pos2) ;
+                //cout << sep_values << endl ;     // prints the number
+                rows.push_back(sep_values) ;
+                int pos ;
+                pos = all_values.find(",") ;
+                all_values.erase(0, pos+1) ; //removes the number if i remember right
 
-            while (!all_values.find("'"))  {
+                while (!all_values.find("'"))  {
+                    
+                if( all_values.find("',") != std::string::npos) {
+                pos1= all_values.find("'") +1 ;
+                pos2 = all_values.find("',")-1;
+
+                sep_values = all_values.substr(pos1,pos2) ;
+                //cout << sep_values << endl ; //all values between the number and the last value
+                rows.push_back(sep_values);
+                pos = all_values.find("',") ;
+                all_values.erase(0, pos + 2) ;    
+                }  
+        
+                else {
+                pos1= all_values.find("'") +1;
+                pos2 = all_values.find_last_of("'");
+                sep_values = all_values.substr(pos1,pos2-pos1) ;
+                //cout << sep_values << endl ; //the last value
+                rows.push_back(sep_values);
+                twoDrows.push_back(rows) ; /// variable an then from there add ++ 
+                all_values.clear();} // clears the sub so the loop stops
                 
-            if( all_values.find("',") != std::string::npos) {
-            pos1= all_values.find("'") +1 ;
-            pos2 = all_values.find("',")-1;
-
-            sep_values = all_values.substr(pos1,pos2) ;
-            //cout << sep_values << endl ; //all values between the number and the last value
-            rows.push_back(sep_values);
-            pos = all_values.find("',") ;
-            all_values.erase(0, pos + 2) ;    
-            }  
-       
-            else {
-            pos1= all_values.find("'") +1;
-            pos2 = all_values.find_last_of("'");
-            sep_values = all_values.substr(pos1,pos2-pos1) ;
-            //cout << sep_values << endl ; //the last value
-            rows.push_back(sep_values);
-            twoDrows.push_back(rows) ; /// variable an then from there add ++ 
-            all_values.clear();} // clears the sub so the loop stops
-            
-            } // while loop
-            } // inner if
-        } // outer iinner if
+                } // while loop
+                } // inner if
+            } // outer iinner if
 
 }
 
@@ -281,5 +317,7 @@ void displayTable(string line,  vector<string> &columns, vector<string> &rows, v
          displayRows(line,rows,twoDrows,dataOut);
                                         
   
-        } 
-}
+        }    
+    }
+      
+   
