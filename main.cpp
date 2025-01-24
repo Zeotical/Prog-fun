@@ -121,22 +121,9 @@ else {
          cout << "Enter a name for the csv file." << endl;
             cin >> output_name;
             dataOut.open(output_name+".csv") ; 
+            displayTable(line,columns,rows,twoDrows,dataOut) ;
+
     } 
-    for (int x=0 ; x< twoDrows.size(); x++){ //lol size is four so four rows yay
-              for (int i=0 ; i<= twoDrows[x].back().size(); i++) {
-                if (i==twoDrows[x].back().size()) {
-                   cout << twoDrows[x][i] ;
-            cout <<   twoDrows[x].back().size() ;     
-                   dataOut << twoDrows[x][i] ;
-                }
-                else {
-                cout << twoDrows[x][i] <<"," ;
-                dataOut<< twoDrows[x][i] <<","; 
-                }
-              } 
-                cout << endl;
-                dataOut << endl ;
-            }
 
     
     do
@@ -144,8 +131,8 @@ else {
         cout << endl << "Continue? [Y/N]" << endl;
         cin >> menu; // can jus capitalize this
         if (menu=='Y' || menu=='y'){
-            twoDrows.clear();
-            dataOut.close();
+            twoDrows.clear(); //clears rows from previous input file
+            dataOut.close(); //closes previous input file
         }
         menu = toupper(menu);
     } while (menu != 'Y' && menu != 'N');
