@@ -64,17 +64,18 @@ do{
 if (dataIn) { //outer if
     // add timer to display output after a bit 
     while (getline(dataIn,line) ) { // Reads each line from the input file (dataIn) into the string 'line' //while loop
-        //DATABASE OPERATIONS
-        if (!line.find("CREATE")) {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true.
-        createDb(line,dataOut) ; 
-        }
-        while (getline(dataIn,line) ) { // inner while
-
-        // INSERTING THIS > AT THE BEGINNING OF EACH KEYWORD
+            // INSERTING THIS > AT THE BEGINNING OF EACH KEYWORD
          markKeywords(line,symbol,dataOut);
         
         cout << line << endl; //Writes each line to the terminal 
         dataOut<< line << endl;  // " " to the outputfile  
+        //DATABASE OPERATIONS
+        if (!line.find("CREATE")) {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true.
+        createDb(line,dataOut) ; 
+        }
+       // while (getline(dataIn,line) ) { // inner while
+
+
 
         //FILE PATH
          if (!line.find("> DATABASES")){
@@ -105,7 +106,7 @@ if (dataIn) { //outer if
          if (line.find("SELECT COUNT(*)")!= std::string::npos){
          rowCounter(line,twoDrows,dataOut); 
          }  
-        }   //inner while loop 
+       // }   //inner while loop 
         
     }//outer while loop
     dataIn.close() ;
@@ -160,13 +161,13 @@ void createDb(string line, ofstream &dataOut) {
 
     string dbName = line.substr(pos2,pos1-pos2) ; //Extracts the substring starting at pos2 with length (pos1-pos2)
     dataOut.open(dbName); //Opens the file using the extracted filename stored in 'dbName'
-    dataOut << "> CREATE" << dbName<<";" << endl ; //Writes "CREATE <filename> ;" to the file
-    cout << "> CREATE" << dbName <<";" << endl ; // "  " to the terminal
+    //dataOut << "> CREATE" << dbName<<";" << endl ; //Writes "CREATE <filename> ;" to the file
+    //cout << "> CREATE" << dbName <<";" << endl ; // "  " to the terminal
         
 }
 
 void markKeywords(string &line, string symbol ,ofstream &dataOut){
-    if (!line.find("DATABASES")|| !line.find("CREATE TABLE") || 
+    if (!line.find("CREATE")||!line.find("DATABASES")|| !line.find("CREATE TABLE") || 
             !line.find("TABLES;") || !line.find("INSERT INTO") || 
             !line.find("SELECT * FROM") || !line.find("SELECT COUNT(*)") || 
             !line.find("DELETE FROM") || !line.find("UPDATE") ) {
