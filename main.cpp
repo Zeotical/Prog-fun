@@ -1,5 +1,5 @@
 // ********************************************************* 
-// Program: YOUR_FILENAME.cpp 
+// Program: main.cpp 
 // Course: CCP6114 Programming Fundamentals
 // Lecture Class: TC6L
 // Tutorial Class: T12L
@@ -10,10 +10,10 @@
 // Member_4: 243UC245K6 | KOK CHUEN HOU |  KOK.CHUEN.HOU@student.mmu.edu.my | +60 11-1984 8099
 // *********************************************************
 // Task Distribution
-// Member_1: CREATE AND VIEW DB
-// Member_2: CREATE AND VIEW TABLE NAME AND COLUMNS
-// Member_3: INSERT ROWS TO TABLE
-// Member_4: VIEW TABLE IN CSV
+// Member_1: Milestone 1 tasks, marking the keywords, filepath
+// Member_2: Update table rows and view table,sample 3
+// Member_3: Delete table rows and view table
+// Member_4: Count and output number of rows in the table , Loop for user input, Naming csv output file
 // *********************************************************
 
 #include <iostream>
@@ -128,7 +128,6 @@ if (dataIn) { //outer if
 else {
     cout << "Failed to open the file" << endl ;
 }
- 
     
     do
     {
