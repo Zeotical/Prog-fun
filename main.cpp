@@ -87,7 +87,9 @@ if (dataIn) { //outer if
         }
 
         //Extracting Columns
-         extractColumns(line,columns,dataOut);
+        if (line.find("INT")!= std::string::npos || line.find("TEXT")!= std::string::npos && columns.size() <= 9 )   {
+
+         extractColumns(line,columns,dataOut); }
 
         //Exatracting ROWS
         if (line.find("VALUES")!= std::string::npos){
@@ -111,17 +113,16 @@ if (dataIn) { //outer if
 }
 else {
     cout << "Failed to open the file" << endl ;
-
 }
  //CSV output file 
     dataOut.close() ;
-    do
+    while (output_choice != 'Y' && output_choice != 'N' && !dataIn.fail())
     {
         cout << "Do you want to output this file as a csv file?" << endl;
         cout << "If yes, please input \"Y\" or \"N\" for no." << endl;
         cin >> output_choice;
         output_choice = toupper(output_choice);
-    } while (output_choice != 'Y' && output_choice != 'N');
+    } 
     
     if (output_choice == 'Y')
     {
@@ -195,7 +196,7 @@ void createTable(string line, string &tableName ,ofstream &dataOut){
 }
 
 void extractColumns(string line,vector <string> &columns,ofstream &dataOut){
-    if (line.find("INT")!= std::string::npos && line.find("INSERT")== std::string::npos && columns.size() <= 9 )   {
+    if (line.find("INT")!= std::string::npos && line.find("INSERT INTO")== std::string::npos && columns.size() <= 9 )   {
                     int pos = line.find("INT") - 1 ;
                     string integer = line.substr(0,pos); // FOR some reason gives insert too
                     columns.push_back(integer);
