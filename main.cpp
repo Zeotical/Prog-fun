@@ -74,9 +74,6 @@ if (dataIn) { //outer if
         createDb(line,dataOut) ; 
         }
        // while (getline(dataIn,line) ) { // inner while
-
-
-
         //FILE PATH
          if (!line.find("> DATABASES")){
          displayFilepath(line,filename,dataOut);
@@ -110,20 +107,15 @@ if (dataIn) { //outer if
         
     }//outer while loop
     dataIn.close() ;
-
-}
-else {
-    cout << "Failed to open the file" << endl ;
-}
- //CSV output file 
+//CSV output file 
     dataOut.close() ;
-    while (output_choice != 'Y' && output_choice != 'N' && !dataIn.fail())
+    do
     {
         cout << "Do you want to output this file as a csv file?" << endl;
         cout << "If yes, please input \"Y\" or \"N\" for no." << endl;
         cin >> output_choice;
         output_choice = toupper(output_choice);
-    } 
+    
     
     if (output_choice == 'Y')
     {
@@ -131,9 +123,15 @@ else {
             cin >> output_name;
             dataOut.open(output_name+".csv") ; 
             displayTable(line,columns,rows,twoDrows,dataOut) ;
+            output_choice= 'N';
+    } }  while (output_choice != 'Y' && output_choice != 'N');
 
-    } 
 
+}
+else {
+    cout << "Failed to open the file" << endl ;
+}
+ 
     
     do
     {
