@@ -65,7 +65,9 @@ if (dataIn) { //outer if
     // add timer to display output after a bit 
     while (getline(dataIn,line) ) { // Reads each line from the input file (dataIn) into the string 'line' //while loop
         //DATABASE OPERATIONS
-        createDb(line,dataOut) ;
+        if (!line.find("CREATE")) {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true.
+        createDb(line,dataOut) ; 
+        }
         while (getline(dataIn,line) ) { // inner while
 
         // INSERTING THIS > AT THE BEGINNING OF EACH KEYWORD
@@ -75,24 +77,32 @@ if (dataIn) { //outer if
         dataOut<< line << endl;  // " " to the outputfile  
 
         //FILE PATH
+         if (!line.find("> DATABASES")){
          displayFilepath(line,filename,dataOut);
-            
+         }
+
         //TABLE OPERATIONS
+        if (!line.find("> CREATE TABLE") || !line.find("> TABLES;") )  {  //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true
          createTable(line,tableName,dataOut);
+        }
 
         //Extracting Columns
          extractColumns(line,columns,dataOut);
 
         //Exatracting ROWS
+        if (line.find("VALUES")!= std::string::npos){
          extractRows(line,rows,twoDrows,dataOut);
-            
+        }  
 
         //Display Table
+        if (line.find("SELECT * FROM")!= std::string::npos){
          displayTable(line,columns,rows,twoDrows,dataOut);
-
+         }
         // ROW COUNTER
         //add if conditions to eahc function
-         rowCounter(line,twoDrows,dataOut);   
+         if (line.find("SELECT COUNT(*)")!= std::string::npos){
+         rowCounter(line,twoDrows,dataOut); 
+         }  
         }   //inner while loop 
         
     }//outer while loop
@@ -142,18 +152,16 @@ else {
 //FUNCTIONS
 
 void createDb(string line, ofstream &dataOut) {
- if (!line.find("CREATE")) {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true.
-            int pos1= line.find(";") ; //Finds index of first ';'in the string // inner if
+ 
+    int pos1= line.find(";") ; //Finds index of first ';'in the string // inner if
 
-                int pos2 = line.find(" ");  //Finds index of the first empty space (' ') in the string
+    int pos2 = line.find(" ");  //Finds index of the first empty space (' ') in the string
 
-                string dbName = line.substr(pos2,pos1-pos2) ; //Extracts the substring starting at pos2 with length (pos1-pos2)
-                dataOut.open(dbName); //Opens the file using the extracted filename stored in 'dbName'
-                dataOut << "> CREATE" << dbName<<";" << endl ; //Writes "CREATE <filename> ;" to the file
-                cout << "> CREATE" << dbName <<";" << endl ; // "  " to the terminal
-                
-                }
-
+    string dbName = line.substr(pos2,pos1-pos2) ; //Extracts the substring starting at pos2 with length (pos1-pos2)
+    dataOut.open(dbName); //Opens the file using the extracted filename stored in 'dbName'
+    dataOut << "> CREATE" << dbName<<";" << endl ; //Writes "CREATE <filename> ;" to the file
+    cout << "> CREATE" << dbName <<";" << endl ; // "  " to the terminal
+        
 }
 
 void markKeywords(string &line, string symbol ,ofstream &dataOut){
@@ -168,28 +176,22 @@ void markKeywords(string &line, string symbol ,ofstream &dataOut){
 }
 
 void displayFilepath(string line,string filename, ofstream &dataOut){
-    if (!line.find("> DATABASES")){
-            string filepath = std::filesystem::absolute(filename);
-            cout << filepath ;
-            dataOut << filepath ; 
-            }
-
-}
+    string filepath = std::filesystem::absolute(filename);
+    cout << filepath ;
+    dataOut << filepath ; 
+    }
 
 void createTable(string line, string &tableName ,ofstream &dataOut){
-    if (!line.find("> CREATE TABLE") || !line.find("> TABLES;") )  { //removing this will do nothin   //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true
-               
-                if (!line.find("> CREATE TABLE") ) {
-                int pos1= line.find("TABLE") + 6 ; 
+    if (!line.find("> CREATE TABLE") ) {
+    int pos1= line.find("TABLE") + 6 ; 
+    int pos2 = line.find("("); 
 
-                    int pos2 = line.find("("); 
-
-                tableName = line.substr(pos1,pos2-pos1) ; 
-                }
-                else if (!line.find("> TABLES;")) {
-                cout << tableName << endl ;
-                dataOut << tableName  << endl; 
-            }                                   }
+    tableName = line.substr(pos1,pos2-pos1) ; 
+    }
+    else if (!line.find("> TABLES;")) {
+    cout << tableName << endl ;
+    dataOut << tableName  << endl; 
+    }
 }
 
 void extractColumns(string line,vector <string> &columns,ofstream &dataOut){
@@ -198,8 +200,6 @@ void extractColumns(string line,vector <string> &columns,ofstream &dataOut){
                     string integer = line.substr(0,pos); // FOR some reason gives insert too
                     columns.push_back(integer);
             } 
-
-
     else if (line.find("TEXT")!= std::string::npos && columns.size() <=9 ) {
                     int pos = line.find("TEXT") - 1;
                     string text = line.substr(0,pos);
@@ -209,51 +209,48 @@ void extractColumns(string line,vector <string> &columns,ofstream &dataOut){
 }
 
 void extractRows(string line, vector<string> &rows, vector<vector<string>> &twoDrows, ofstream &dataOut){
-if (line.find("VALUES")!= std::string::npos){ // outer inner if
-            rows.clear() ; //clears the vector not wanted 
-            int pos1= line.find(" (") + 2 ; 
-            int pos2 = line.find(";");
-            
-            string all_values = line.substr(pos1,pos2-pos1) ; // takes out 4,'name4','city4','state4','country4','phone4','email4'
+    rows.clear() ; //clears the vector 
+    int pos1= line.find(" (") + 2 ; 
+    int pos2 = line.find(";");
+
+    string all_values = line.substr(pos1,pos2-pos1) ; // takes out 4,'name4','city4','state4','country4','phone4','email4'
         //cout << all_values;
-            if(all_values.find(",")) { //inner if
-            int pos1= 0 ;
-            int pos2 = all_values.find(",");
+    if(all_values.find(",")) { //inner if
+        int pos1= 0 ;
+        int pos2 = all_values.find(",");
 
-                string sep_values = all_values.substr(pos1,pos2) ;
-                //cout << sep_values << endl ;     // prints the number
-                rows.push_back(sep_values) ;
-                int pos ;
-                pos = all_values.find(",") ;
-                all_values.erase(0, pos+1) ; //removes the number if i remember right
+            string sep_values = all_values.substr(pos1,pos2) ;
+            //cout << sep_values << endl ;     // prints the number
+            rows.push_back(sep_values) ;
+            int pos ;
+            pos = all_values.find(",") ;
+            all_values.erase(0, pos+1) ; //removes the number if i remember right
 
-                while (!all_values.find("'"))  {
-                    
-                if( all_values.find("',") != std::string::npos) {
-                pos1= all_values.find("'") +1 ;
-                pos2 = all_values.find("',")-1;
-
-                sep_values = all_values.substr(pos1,pos2) ;
-                //cout << sep_values << endl ; //all values between the number and the last value
-                rows.push_back(sep_values);
-                pos = all_values.find("',") ;
-                all_values.erase(0, pos + 2) ;    
-                }  
-        
-                else {
-                pos1= all_values.find("'") +1;
-                pos2 = all_values.find_last_of("'");
-                sep_values = all_values.substr(pos1,pos2-pos1) ;
-                //cout << sep_values << endl ; //the last value
-                rows.push_back(sep_values);
-                twoDrows.push_back(rows) ; /// variable an then from there add ++ 
-                all_values.clear();} // clears the sub so the loop stops
+            while (!all_values.find("'"))  {
                 
-                } // while loop
-                } // inner if
-            } // outer iinner if
+            if( all_values.find("',") != std::string::npos) {
+            pos1= all_values.find("'") +1 ;
+            pos2 = all_values.find("',")-1;
 
-}
+            sep_values = all_values.substr(pos1,pos2) ;
+            //cout << sep_values << endl ; //all values between the number and the last value
+            rows.push_back(sep_values);
+            pos = all_values.find("',") ;
+            all_values.erase(0, pos + 2) ;    
+            }  
+
+            else {
+            pos1= all_values.find("'") +1;
+            pos2 = all_values.find_last_of("'");
+            sep_values = all_values.substr(pos1,pos2-pos1) ;
+            //cout << sep_values << endl ; //the last value
+            rows.push_back(sep_values);
+            twoDrows.push_back(rows) ; /// variable an then from there add ++ 
+            all_values.clear();} // clears the sub so the loop stops
+            
+            } // while loop
+            } // inner if
+} //func closing brace
 
 void displayCols(string line, vector<string> &columns, ofstream &dataOut){
  //COLUMNS display 
@@ -291,24 +288,16 @@ void displayRows(string line, vector<string> &rows, vector<vector<string>> &twoD
 }
 
 void displayTable(string line,  vector<string> &columns, vector<string> &rows, vector<vector<string>> &twoDrows, ofstream &dataOut){
-    if (line.find("SELECT * FROM")!= std::string::npos){
-         displayCols(line,columns,dataOut);
-       
-
-         cout << endl; //space b/w columns and rows
-         dataOut << endl;   
-
-         displayRows(line,rows,twoDrows,dataOut);
-                                        
-  
-        }    
-    }
+   
+    displayCols(line,columns,dataOut);
+    cout << endl; //space b/w columns and rows
+    dataOut << endl;   
+    displayRows(line,rows,twoDrows,dataOut);
+    }    
+    
       
    void rowCounter (string line, vector<vector<string>> &twoDrows, ofstream &dataOut){
-     if (line.find("SELECT COUNT(*)")!= std::string::npos)
-            {
-                cout << twoDrows.size() << endl;
-                dataOut  << twoDrows.size() << endl;
-            }
-        
-   }
+
+    cout << twoDrows.size() << endl;
+    dataOut  << twoDrows.size() << endl;
+    }
