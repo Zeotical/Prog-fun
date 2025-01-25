@@ -73,7 +73,6 @@ if (dataIn) { //outer if
         if (!line.find("CREATE")) {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true.
         createDb(line,dataOut) ; 
         }
-       // while (getline(dataIn,line) ) { // inner while
         //FILE PATH
          if (!line.find("> DATABASES")){
          displayFilepath(line,filename,dataOut);
@@ -99,11 +98,9 @@ if (dataIn) { //outer if
          displayTable(line,columns,rows,twoDrows,dataOut);
          }
         // ROW COUNTER
-        //add if conditions to eahc function
          if (line.find("SELECT COUNT(*)")!= std::string::npos){
          rowCounter(line,twoDrows,dataOut); 
          }  
-       // }   //inner while loop 
         
     }//outer while loop
     dataIn.close() ;
@@ -159,10 +156,7 @@ void createDb(string line, ofstream &dataOut) {
 
     string dbName = line.substr(pos2,pos1-pos2) ; //Extracts the substring starting at pos2 with length (pos1-pos2)
     dataOut.open(dbName); //Opens the file using the extracted filename stored in 'dbName'
-    //dataOut << "> CREATE" << dbName<<";" << endl ; //Writes "CREATE <filename> ;" to the file
-    //cout << "> CREATE" << dbName <<";" << endl ; // "  " to the terminal
-        
-}
+    }
 
 void markKeywords(string &line, string symbol ,ofstream &dataOut){
     if (!line.find("CREATE")||!line.find("DATABASES")|| !line.find("CREATE TABLE") || 
