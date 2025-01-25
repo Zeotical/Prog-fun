@@ -1,5 +1,5 @@
 // ******************************************************************************************************************
-// Program: main.cpp 
+// Program: main.cpp
 // Course: CCP6114 Programming Fundamentals
 // Lecture Class: TC6L
 // Tutorial Class: T12L
@@ -20,7 +20,7 @@
 #include <iostream>
 #include <fstream> // header file for file access
 #include <string>
-#include <vector> 
+#include <vector>
 #include <filesystem> // library to output filepath
 
 using namespace std;
@@ -48,7 +48,7 @@ void rowCounter(string,vector<vector<string>>&, ofstream&);
 string filename , line, dbName , output_name;
 int pos1, pos2 ;
 string tableName ;
-vector <string> columns; 
+vector <string> columns;
 vector <string> rows ;
 vector <vector<string>> twoDrows;
 string symbol("> ") ;
@@ -63,18 +63,19 @@ do{
     dataIn.open(filename) ;
 
 if (dataIn) { //outer if
-    // add timer to display output after a bit 
+    // add timer to display output after a bit
     while (getline(dataIn,line) ) { // Reads each line from the input file (dataIn) into the string 'line' //while loop
-
+        if (!line.find("CREATE")) {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true.
+        createDb(line,dataOut) ;
+        }
+        while(getline(dataIn,line) ) {
         // INSERTING THIS > AT THE BEGINNING OF EACH KEYWORD
          markKeywords(line,symbol,dataOut);
-        
-        cout << line << endl; //Writes each line to the terminal 
-        dataOut<< line << endl;  // " " to the outputfile  
+
+        cout << line << endl; //Writes each line to the terminal
+        dataOut<< line << endl;  // " " to the outputfile
         //DATABASE OPERATIONS
-        if (!line.find("CREATE")) {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true.
-        createDb(line,dataOut) ; 
-        }
+        
         //FILE PATH
          if (!line.find("> DATABASES")){
          displayFilepath(line,filename,dataOut);
@@ -93,7 +94,7 @@ if (dataIn) { //outer if
         //Exatracting ROWS
         if (line.find("VALUES")!= std::string::npos){
          extractRows(line,rows,twoDrows,dataOut);
-        }  
+        }
 
         //Display Table
         if (line.find("SELECT * FROM")!= std::string::npos){
@@ -101,12 +102,12 @@ if (dataIn) { //outer if
          }
         // ROW COUNTER
          if (line.find("SELECT COUNT(*)")!= std::string::npos){
-         rowCounter(line,twoDrows,dataOut); 
-         }  
-        
-    }//while loop
+         rowCounter(line,twoDrows,dataOut);
+         }
+    }// inner while loop
+    }//outer while loop
     dataIn.close() ;
-//CSV output file 
+//CSV output file
     dataOut.close() ;
     do
     {
@@ -114,13 +115,13 @@ if (dataIn) { //outer if
         cout << "If yes, please input \"Y\" or \"N\" for no." << endl;
         cin >> output_choice;
         output_choice = toupper(output_choice);
-    
-    
+
+
     if (output_choice == 'Y')
     {
          cout << "Enter a name for the csv file." << endl;
             cin >> output_name;
-            dataOut.open(output_name+".csv") ; 
+            dataOut.open(output_name+".csv") ;
             displayTable(line,columns,rows,twoDrows,dataOut) ;
             output_choice= 'N';
     } }  while (output_choice != 'Y' && output_choice != 'N');
@@ -130,7 +131,7 @@ if (dataIn) { //outer if
 else {
     cout << "Failed to open the file" << endl ;
 }
-    
+
     do
     {
         cout << endl << "Continue? [Y/N]" << endl;
@@ -143,14 +144,14 @@ else {
     } while (menu != 'Y' && menu != 'N');
 
 } while (menu != 'N');
-    
+
     return 0;
 }
 
 //FUNCTIONS
 
 void createDb(string line, ofstream &dataOut) {
- 
+
     int pos1= line.find(";") ; //Finds index of first ';'in the string // inner if
 
     int pos2 = line.find(" ");  //Finds index of the first empty space (' ') in the string
@@ -160,12 +161,12 @@ void createDb(string line, ofstream &dataOut) {
     }
 
 void markKeywords(string &line, string symbol ,ofstream &dataOut){
-    if (!line.find("CREATE")||!line.find("DATABASES")|| !line.find("CREATE TABLE") || 
-            !line.find("TABLES;") || !line.find("INSERT INTO") || 
-            !line.find("SELECT * FROM") || !line.find("SELECT COUNT(*)") || 
+    if (!line.find("CREATE")||!line.find("DATABASES")|| !line.find("CREATE TABLE") ||
+            !line.find("TABLES;") || !line.find("INSERT INTO") ||
+            !line.find("SELECT * FROM") || !line.find("SELECT COUNT(*)") ||
             !line.find("DELETE FROM") || !line.find("UPDATE") ) {
-            
-            line.insert(0,symbol) ; 
+
+            line.insert(0,symbol) ;
             }
 
 }
@@ -173,39 +174,39 @@ void markKeywords(string &line, string symbol ,ofstream &dataOut){
 void displayFilepath(string line,string filename, ofstream &dataOut){
     string filepath = std::filesystem::absolute(filename);
     cout << filepath ;
-    dataOut << filepath ; 
+    dataOut << filepath ;
     }
 
 void createTable(string line, string &tableName ,ofstream &dataOut){
     if (!line.find("> CREATE TABLE") ) {
-    int pos1= line.find("TABLE") + 6 ; 
-    int pos2 = line.find("("); 
+    int pos1= line.find("TABLE") + 6 ;
+    int pos2 = line.find("(");
 
-    tableName = line.substr(pos1,pos2-pos1) ; 
+    tableName = line.substr(pos1,pos2-pos1) ;
     }
     else if (!line.find("> TABLES;")) {
     cout << tableName << endl ;
-    dataOut << tableName  << endl; 
+    dataOut << tableName  << endl;
     }
 }
 
 void extractColumns(string line,vector <string> &columns,ofstream &dataOut){
     if (line.find("INT")!= std::string::npos && line.find("INSERT INTO")== std::string::npos && columns.size() <= 9 )   { //line find INT from INSERT INTO so to avoide that I search for lines that don't contain it.
                     int pos = line.find("INT") - 1 ;
-                    string integer = line.substr(0,pos); 
+                    string integer = line.substr(0,pos);
                     columns.push_back(integer);
-            } 
+            }
     else if (line.find("TEXT")!= std::string::npos && columns.size() <=9 ) {
                     int pos = line.find("TEXT") - 1;
                     string text = line.substr(0,pos);
                     columns.push_back(text);
-                    
-            } 
+
+            }
 }
 
 void extractRows(string line, vector<string> &rows, vector<vector<string>> &twoDrows, ofstream &dataOut){
-    rows.clear() ; //clears the vector 
-    int pos1= line.find(" (") + 2 ; 
+    rows.clear() ; //clears the vector
+    int pos1= line.find(" (") + 2 ;
     int pos2 = line.find(";");
 
     string all_values = line.substr(pos1,pos2-pos1) ; // takes out 4,'name4','city4','state4','country4','phone4','email4'
@@ -222,7 +223,7 @@ void extractRows(string line, vector<string> &rows, vector<vector<string>> &twoD
             all_values.erase(0, pos+1) ; //removes the number if i remember right
 
             while (!all_values.find("'"))  {
-                
+
             if( all_values.find("',") != std::string::npos) {
             pos1= all_values.find("'") +1 ;
             pos2 = all_values.find("',")-1;
@@ -231,8 +232,8 @@ void extractRows(string line, vector<string> &rows, vector<vector<string>> &twoD
             //cout << sep_values << endl ; //all values between the number and the last value
             rows.push_back(sep_values);
             pos = all_values.find("',") ;
-            all_values.erase(0, pos + 2) ;    
-            }  
+            all_values.erase(0, pos + 2) ;
+            }
 
             else {
             pos1= all_values.find("'") +1;
@@ -240,41 +241,41 @@ void extractRows(string line, vector<string> &rows, vector<vector<string>> &twoD
             sep_values = all_values.substr(pos1,pos2-pos1) ;
             //cout << sep_values << endl ; //the last value
             rows.push_back(sep_values);
-            twoDrows.push_back(rows) ; /// variable an then from there add ++ 
+            twoDrows.push_back(rows) ; /// variable an then from there add ++
             all_values.clear();} // clears the sub so the loop stops
-            
+
             } // while loop
             } // inner if
 } //func closing brace
 
 void displayCols(string line, vector<string> &columns, ofstream &dataOut){
- //COLUMNS display 
+ //COLUMNS display
         for(int col = 0 ; col < columns.size() ; col ++){
             if (col==columns.size()-1) {
                 cout << columns[col]  ;
                 dataOut << columns[col] ;
             }
             else {
-               cout << columns[col] << "," ; 
-               dataOut << columns[col] << "," ; 
-            } 
+               cout << columns[col] << "," ;
+               dataOut << columns[col] << "," ;
+            }
         }
 }
 
 void displayRows(string line, vector<string> &rows, vector<vector<string>> &twoDrows, ofstream &dataOut){
      //ROWS CSV
         for (int x=0 ; x< twoDrows.size(); x++){ //lol size is four so four rows yay
-          for (int i=0 ; i<rows.size(); i++) { //twoDrows[x].back().size() figure out this row thing 
+          for (int i=0 ; i<rows.size(); i++) { //twoDrows[x].back().size() figure out this row thing
             if (i==rows.size() - 1) {
                cout << twoDrows[x][i] ;
-        //cout <<   twoDrows[x].back().size() ;     
+        //cout <<   twoDrows[x].back().size() ;
                dataOut << twoDrows[x][i] ;
             }
             else {
             cout << twoDrows[x][i] <<"," ;
-            dataOut<< twoDrows[x][i] <<","; 
+            dataOut<< twoDrows[x][i] <<",";
             }
-          } 
+          }
             cout << endl;
             dataOut << endl ; //space b/w each rows
         }
@@ -283,14 +284,14 @@ void displayRows(string line, vector<string> &rows, vector<vector<string>> &twoD
 }
 
 void displayTable(string line,  vector<string> &columns, vector<string> &rows, vector<vector<string>> &twoDrows, ofstream &dataOut){
-   
+
     displayCols(line,columns,dataOut);
     cout << endl; //space b/w columns and rows
-    dataOut << endl;   
+    dataOut << endl;
     displayRows(line,rows,twoDrows,dataOut);
-    }    
-    
-      
+    }
+
+
    void rowCounter (string line, vector<vector<string>> &twoDrows, ofstream &dataOut){
 
     cout << twoDrows.size() << endl;
