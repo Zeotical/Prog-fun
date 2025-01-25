@@ -21,6 +21,7 @@
 #include <string>
 #include <vector> 
 #include <filesystem> // library to output filepath
+#include <sstream> //This header is for the exctract row part
 
 using namespace std;
 
@@ -82,7 +83,31 @@ if (dataIn) { //outer if
 
         //Exatracting ROWS
          extractRows(line,rows,twoDrows,dataOut);
-            
+        else if (line.find("VALUES") != std::string::npos) {
+    rows.clear();
+    int pos1 = line.find("(") + 1;
+    int pos2 = line.find(");");
+    string all_values = line.substr(pos1, pos2 - pos1 - 1);
+
+    // Split the string by commas while preserving values within single quotes
+    std::istringstream ss(all_values);
+    std::string value;
+    while (std::getline(ss, value, ',')) {
+        // Remove leading/trailing spaces
+        value.erase(0, value.find_first_not_of(" "));
+        value.erase(value.find_last_not_of(" ") + 1);
+
+        // If the token starts and ends with a single quote, remove them
+        if (value.front() == '\'' && value.back() == '\'') {
+            value = value.substr(1, value.size() - 2);
+        }
+
+        rows.push_back(value);
+    }
+
+    twoDrows.push_back(rows);
+}
+   
 
         //Display Table
          displayTable(line,columns,rows,twoDrows,dataOut);
