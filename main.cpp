@@ -195,9 +195,9 @@ void createTable(string line, string &tableName ,ofstream &dataOut){
 }
 
 void extractColumns(string line,vector <string> &columns,ofstream &dataOut){
-    if (line.find("INT")!= std::string::npos && line.find("INSERT INTO")== std::string::npos && columns.size() <= 9 )   {
+    if (line.find("INT")!= std::string::npos && line.find("INSERT INTO")== std::string::npos && columns.size() <= 9 )   { //line find INT from INSERT INTO so to avoide that I search for lines that don't contain it.
                     int pos = line.find("INT") - 1 ;
-                    string integer = line.substr(0,pos); // FOR some reason gives insert too
+                    string integer = line.substr(0,pos); 
                     columns.push_back(integer);
             } 
     else if (line.find("TEXT")!= std::string::npos && columns.size() <=9 ) {
