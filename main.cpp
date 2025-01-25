@@ -65,7 +65,8 @@ do{
 if (dataIn) { //outer if
     // add timer to display output after a bit 
     while (getline(dataIn,line) ) { // Reads each line from the input file (dataIn) into the string 'line' //while loop
-            // INSERTING THIS > AT THE BEGINNING OF EACH KEYWORD
+
+        // INSERTING THIS > AT THE BEGINNING OF EACH KEYWORD
          markKeywords(line,symbol,dataOut);
         
         cout << line << endl; //Writes each line to the terminal 
@@ -103,7 +104,7 @@ if (dataIn) { //outer if
          rowCounter(line,twoDrows,dataOut); 
          }  
         
-    }//outer while loop
+    }//while loop
     dataIn.close() ;
 //CSV output file 
     dataOut.close() ;
