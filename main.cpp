@@ -39,6 +39,7 @@ void extractRows (string, vector<string> & ,vector<vector<string>>&, ofstream&);
 void displayCols (string, vector<string> & , ofstream&);
 void displayRows (string, vector<string> & ,vector<vector<string>>&, ofstream&);
 void displayTable (string,vector<string> &,vector<string> & ,vector<vector<string>>&,ofstream&) ;
+void rowCounter(string,vector<vector<string>>&, ofstream&);
 
 
 
@@ -90,12 +91,7 @@ if (dataIn) { //outer if
          displayTable(line,columns,rows,twoDrows,dataOut);
 
         // ROW COUNTER
-            if (line.find("SELECT COUNT(*)")!= std::string::npos)
-            {
-                cout << twoDrows.size() << endl;
-                dataOut  << twoDrows.size() << endl;
-            }
-        
+         rowCounter(line,twoDrows,dataOut);   
         }   //inner while loop 
         
     }//outer while loop
@@ -307,4 +303,11 @@ void displayTable(string line,  vector<string> &columns, vector<string> &rows, v
         }    
     }
       
-   
+   void rowCounter (string line, vector<vector<string>> &twoDrows, ofstream &dataOut){
+     if (line.find("SELECT COUNT(*)")!= std::string::npos)
+            {
+                cout << twoDrows.size() << endl;
+                dataOut  << twoDrows.size() << endl;
+            }
+        
+   }
