@@ -1,4 +1,4 @@
-// ********************************************************* 
+// ******************************************************************************************************************
 // Program: main.cpp 
 // Course: CCP6114 Programming Fundamentals
 // Lecture Class: TC6L
@@ -8,13 +8,14 @@
 // Member_2: 243UC246PD | ATODAN RIZKY PARIJOGO| ATODAN.RIZKY.PARIJOGO@student.mmu.edu.my | +62 811-8851-054
 // Member_3: 243UC247KC | NUR IRFAN BIN MD SHAHRUL NIZAM | NUR.IRFAN.MD@student.mmu.edu.my | +60 17-230 6376
 // Member_4: 243UC245K6 | KOK CHUEN HOU |  KOK.CHUEN.HOU@student.mmu.edu.my | +60 11-1984 8099
-// *********************************************************
+// ******************************************************************************************************************
+
 // Task Distribution
 // Member_1: Milestone 1 tasks, marking the keywords, filepath
 // Member_2: Update table rows and view table,sample 3
 // Member_3: Delete table rows and view table
 // Member_4: Count and output number of rows in the table , Loop for user input, Naming csv output file
-// *********************************************************
+// ******************************************************************************************************************
 
 #include <iostream>
 #include <fstream> // header file for file access
