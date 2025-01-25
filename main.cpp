@@ -91,6 +91,7 @@ if (dataIn) { //outer if
          displayTable(line,columns,rows,twoDrows,dataOut);
 
         // ROW COUNTER
+        //add if conditions to eahc function
          rowCounter(line,twoDrows,dataOut);   
         }   //inner while loop 
         
