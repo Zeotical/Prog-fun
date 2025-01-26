@@ -131,8 +131,6 @@ if (dataIn) { //outer if
         //     }      }
 =======
         else if (line.find("UPDATE") != std::string::npos) {
-                    string tableName = line.substr(line.find("UPDATE") + 7, line.find("SET") - (line.find("UPDATE") + 7));
-                    tableName = tableName.substr(0, tableName.find(" "));  // Clean up the table name
                     string setPart = line.substr(line.find("SET") + 4, line.find("WHERE") - (line.find("SET") + 4));
                     string columnName = setPart.substr(0, setPart.find("="));
                     string newValue = setPart.substr(setPart.find("=") + 1);
@@ -141,17 +139,10 @@ if (dataIn) { //outer if
                     string wherePart = line.substr(line.find("WHERE") + 6);
                     int customerId = stoi(wherePart.substr(wherePart.find("customer_id=") + 12));
 
-                    updateCustomer(twoDrows, columnNames, columnName, newValue, customerId);
+                    updateCustomer(twoDrows, columns, columnName, newValue, customerId);
                 }
->>>>>>> refs/remotes/origin/main
-
-
-
-        //}
-            
-        
-        }   //inner while loop 
-    }//outer while loop
+            } // inner while loop
+        } // outer while loop
     dataIn.close() ;
 
 
@@ -374,5 +365,19 @@ void updateCustomer(vector<vector<string>>& twoDrows, const vector<string>& colu
             break;
         }
     }
->>>>>>> refs/remotes/origin/main
+
+    if (columnIndex == -1) {
+        cout << "Column not found!" << endl;
+        return;
+    }
+
+    // Update the row corresponding to the customerId
+    for (auto& row : twoDrows) {
+        if (stoi(row[0]) == customerId) { // Assuming the first column is customer_id
+            row[columnIndex] = newValue;
+            cout << "Updated customer " << customerId << ": " << columnName << " = " << newValue << endl;
+            break;
+        }
+    }
+}
 
