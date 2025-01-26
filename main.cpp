@@ -63,47 +63,48 @@ do{
     dataIn.open(filename) ;
 
 if (dataIn) { //outer if
-    // add timer to display output after a bit
     while (getline(dataIn,line) ) { // Reads each line from the input file (dataIn) into the string 'line' //while loop
         //DATABASE OPERATIONS
         if (!line.find("CREATE")) {    //True if "CREATE" is at the start of the line."!" negat es 0 (index pos of CREATE) to true.
         createDb(line,dataOut) ;
         }
+        // INSERTING THIS > AT THE BEGINNING OF EACH COMMAND
+         markCommands(line,symbol,dataOut);
         cout << line << endl; //Writes the CREATE command to the terminal
         dataOut<< line << endl;  //Writes the CREATE command to the output file
         while(getline(dataIn,line) ) {
-        // INSERTING THIS > AT THE BEGINNING OF EACH KEYWORD
+        // INSERTING THIS > AT THE BEGINNING OF EACH COMMAND
          markCommands(line,symbol,dataOut);
 
         cout << line << endl; //Writes each line to the terminal
         dataOut<< line << endl;  //Writes each line to the output file
 
         //FILE PATH
-         if (!line.find("> DATABASES")){
+        if (!line.find("> DATABASES")){
          displayFilepath(line,filename,dataOut);
          }
 
         //TABLE OPERATIONS
-        if (!line.find("> CREATE TABLE") || !line.find("> TABLES;") )  {  //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true
+        else if (!line.find("> CREATE TABLE") || !line.find("> TABLES;") )  {  //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true
          createTable(line,tableName,dataOut);
         }
 
         //Extracting Columns
-        if (line.find("INT")!= std::string::npos || line.find("TEXT")!= std::string::npos && columns.size() <= 9 )   {
+        else if (line.find("INT")!= std::string::npos || line.find("TEXT")!= std::string::npos && columns.size() <= 9 )   {
 
          extractColumns(line,columns,dataOut); }
 
         //Exatracting ROWS
-        if (line.find("VALUES")!= std::string::npos){
+        else if (line.find("VALUES")!= std::string::npos){
          extractRows(line,rows,twoDrows,dataOut);
         }
 
         //Display Table
-        if (line.find("SELECT * FROM")!= std::string::npos){
+        else if (line.find("SELECT * FROM")!= std::string::npos){
          displayTable(line,columns,rows,twoDrows,dataOut);
          }
         // ROW COUNTER
-         if (line.find("SELECT COUNT(*)")!= std::string::npos){
+        else if (line.find("SELECT COUNT(*)")!= std::string::npos){
          rowCounter(line,twoDrows,dataOut);
          }
     }// inner while loop
