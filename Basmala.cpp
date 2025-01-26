@@ -100,7 +100,30 @@ if (dataIn) { //outer if
         //             twoDrows.erase(twoDrows.begin() + rowto)
         // }
                     
-        
+        //Update Row
+        if(line.find("UPDATE")!= std::string::npos){
+             int pos = line.find("SET")+ 4;
+             int pos2 = line.find("=");
+             string columnValue = line.substr(pos,pos2-pos);
+
+             int pos3 = line.find("=") + 2 ;
+             int pos4 = line.find_last_of("'")  ;
+             string valueUpdate = line.substr(pos3, pos4-pos3);
+
+             int pos5 = line.find_last_of("=")+ 1;
+             string row = line.substr(pos5,1);
+             int rowToUpdate = stoi(row) -1 ;
+         for(int col = 0 ; col < columns.size(); col ++){
+            if (columns[col]==columnValue) {
+                cout << col <<"HEHER" ;
+                cout << columns[col]  ;
+                dataOut << columns[col] ;
+                twoDrows[rowToUpdate][col] = valueUpdate;
+            }      }
+
+
+
+        }
             
         
         }   //inner while loop 
