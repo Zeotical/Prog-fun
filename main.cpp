@@ -42,6 +42,8 @@ void displayRows (string, vector<string> & ,vector<vector<string>>&, ofstream&);
 void displayTable (string,vector<string> &,vector<string> & ,vector<vector<string>>&,ofstream&) ;
 void rowCounter(string,vector<vector<string>>&, ofstream&);
 void deleteRows(string,vector<vector<string>>&, ofstream&);
+void updateCustomer(vector<vector<string>>& twoDrows, const vector<string>& columnNames, const string& columnName, const string& newValue, int customerId);
+
 
 
 
@@ -110,6 +112,19 @@ if (dataIn) { //outer if
          deleteRows(line,twoDrows,dataOut);
 
         }
+
+        //Update Row
+        else if (line.find("UPDATE") != std::string::npos) {
+                    string setPart = line.substr(line.find("SET") + 4, line.find("WHERE") - (line.find("SET") + 4));
+                    string columnName = setPart.substr(0, setPart.find("="));
+                    string newValue = setPart.substr(setPart.find("=") + 2);
+                    newValue = newValue.substr(1, newValue.size() - 1); // Remove the surrounding quotes
+
+                    string wherePart = line.substr(line.find("WHERE") + 6);
+                    int customerId = stoi(wherePart.substr(wherePart.find("customer_id=") + 12));
+
+                    updateCustomer(twoDrows, columns, columnName, newValue, customerId);
+                }
 
         // ROW COUNTER
         else if (line.find("SELECT COUNT(*)")!= std::string::npos){
@@ -327,6 +342,31 @@ void deleteRows(string line,vector<vector<string>> &twoDrows, ofstream &dataOut 
         {
             twoDrows.erase(twoDrows.begin() + i); // Remove the row
             break;                                // Exit after deleting the row
+        }
+    }
+}
+
+void updateCustomer(vector<vector<string>>& twoDrows, const vector<string>& columnNames, const string& columnName, const string& newValue, int customerId) {
+    // Find column index based on column name
+    int columnIndex = -1;
+    for (int i = 0; i < columnNames.size(); ++i) {
+        if (columnNames[i] == columnName) {
+            columnIndex = i;
+            break;
+        }
+    }
+
+    if (columnIndex == -1) {
+        cout << "Column not found!" << endl;
+        return;
+    }
+
+    // Update the row corresponding to the customerId
+    for (auto& row : twoDrows) {
+        if (stoi(row[0]) == customerId) { // Assuming the first column is customer_id
+            row[columnIndex] = newValue;
+            cout << "Updated customer " << customerId << ": " << columnName << " = " << newValue << endl;
+            break;
         }
     }
 }
