@@ -42,7 +42,7 @@ void displayRows (string, vector<string> & ,vector<vector<string>>&, ofstream&);
 void displayTable (string,vector<string> &,vector<string> & ,vector<vector<string>>&,ofstream&) ;
 void rowCounter(string,vector<vector<string>>&, ofstream&);
 void deleteRows(string,vector<vector<string>>&, ofstream&);
-void updateCustomer(vector<vector<string>>& twoDrows, const vector<string>& columnNames, const string& columnName, const string& newValue, int customerId);
+void updateRows(vector<vector<string>>& , vector<string> &,  string&, string&, int);
 
 
 
@@ -58,6 +58,9 @@ string symbol("> ") ;
 char menu, output_choice;
 
 do{
+    twoDrows.clear();
+    rows.clear();
+    columns.clear();
     cout << "Light Mariadb Interpreter"  << endl ;
 
     cout << "Enter the filename: " <<endl ;
@@ -127,11 +130,11 @@ if (dataIn) { //outer if
              string row = line.substr(pos5,1);
              int rowToUpdate = stoi(row) -1 ;
 
-                    string wherePart = line.substr(line.find("WHERE") + 6);
-                    int customerId = stoi(wherePart.substr(wherePart.find("customer_id=") + 12));
-
-                    updateCustomer(twoDrows, columns, columnValue, newValue, customerId);
+    
+                    updateRows(twoDrows, columns, columnValue, newValue, rowToUpdate);
                 }
+
+                
 
         // ROW COUNTER
         else if (line.find("SELECT COUNT(*)")!= string::npos){
@@ -353,11 +356,11 @@ void deleteRows(string line,vector<vector<string>> &twoDrows, ofstream &dataOut 
     }
 }
 
-void updateCustomer(vector<vector<string>>& twoDrows, const vector<string>& columnNames, const string& columnName, const string& newValue, int customerId) {
-    // Find column index based on column name
+void updateRows(vector<vector<string>>& twoDrows, vector<string> &columns,string &columnValue, string& newValue, int rowToUpdate) {
+    // Find column index based on column value
     int columnIndex = -1;
-    for (int i = 0; i < columnNames.size(); ++i) {
-        if (columnNames[i] == columnName) {
+    for (int i = 0; i < columns.size(); ++i) {
+        if (columns[i] == columnValue) {
             columnIndex = i;
             break;
         }
@@ -370,9 +373,11 @@ void updateCustomer(vector<vector<string>>& twoDrows, const vector<string>& colu
 
     // Update the row corresponding to the customerId
     for (auto& row : twoDrows) {
-        if (stoi(row[0]) == customerId) { // Assuming the first column is customer_id
-            row[columnIndex] = newValue;
-            cout << "Updated customer " << customerId << ": " << columnName << " = " << newValue << endl;
+        if (stoi(row[0]) == rowToUpdate) { // Assuming the first column is customer_id
+             for (int col = 0; col < columns.size(); ++col) {
+                if (columns[col] == columnValue) { 
+                    row[col] = newValue;
+                }}
             break;
         }
     }
