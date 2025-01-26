@@ -131,18 +131,15 @@ if (dataIn) { //outer if
              string row = line.substr(pos5,pos6);
              int rowToUpdate = stoi(row) ;
 
-    
+
                     updateRows(twoDrows, columns, columnValue, newValue, rowToUpdate);
                 }
 
-                
 
-        // ROW COUNTER
-        else if (line.find("SELECT COUNT(*)")!= string::npos){
-         rowCounter(line,twoDrows,dataOut);
-         }
-  
-        
+
+
+
+
 
     }// inner while loop
     }//outer while loop
@@ -376,14 +373,12 @@ void updateRows(vector<vector<string>>& twoDrows, vector<string> &columns,string
     for (auto& row : twoDrows) {
         if (stoi(row[0]) == rowToUpdate) { // Assuming the first column is ID
              for (int col = 0; col < columns.size(); ++col) {
-                if (columns[col] == columnValue) { 
+                if (columns[col] == columnValue) {
                     row[col] = newValue;
                 }}
-            break; }
-        else if (stoi(row[0]) != rowToUpdate){
-            cout << "No such ID found"<<endl;
-        }    
-         
-        
+            break;
+
+        }
+
     }
 }
