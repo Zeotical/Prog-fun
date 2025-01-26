@@ -25,6 +25,9 @@
 
 using namespace std;
 
+// Update function declaration
+void updateCustomer(vector<vector<string>>& twoDrows, const vector<string>& columnNames, const string& columnName, const string& newValue, int customerId);
+
 int main() {
 
 ifstream dataIn;  // inputs from a file
@@ -101,25 +104,19 @@ if (dataIn) { //outer if
         // }
                     
         //Update Row
-        if(line.find("UPDATE")!= std::string::npos){
-             int pos = line.find("SET")+ 4;
-             int pos2 = line.find("=");
-             string columnValue = line.substr(pos,pos2-pos);
+        else if (line.find("UPDATE") != std::string::npos) {
+                    string tableName = line.substr(line.find("UPDATE") + 7, line.find("SET") - (line.find("UPDATE") + 7));
+                    tableName = tableName.substr(0, tableName.find(" "));  // Clean up the table name
+                    string setPart = line.substr(line.find("SET") + 4, line.find("WHERE") - (line.find("SET") + 4));
+                    string columnName = setPart.substr(0, setPart.find("="));
+                    string newValue = setPart.substr(setPart.find("=") + 1);
+                    newValue = newValue.substr(1, newValue.size() - 2); // Remove the surrounding quotes
 
-             int pos3 = line.find("=") + 2 ;
-             int pos4 = line.find_last_of("'")  ;
-             string valueUpdate = line.substr(pos3, pos4-pos3);
+                    string wherePart = line.substr(line.find("WHERE") + 6);
+                    int customerId = stoi(wherePart.substr(wherePart.find("customer_id=") + 12));
 
-             int pos5 = line.find_last_of("=")+ 1;
-             string row = line.substr(pos5,1);
-             int rowToUpdate = stoi(row) -1 ;
-         for(int col = 0 ; col < columns.size(); col ++){
-            if (columns[col]==columnValue) {
-                cout << col <<"HEHER" ;
-                cout << columns[col]  ;
-                dataOut << columns[col] ;
-                twoDrows[rowToUpdate][col] = valueUpdate;
-            }      }
+                    updateCustomer(twoDrows, columnNames, columnName, newValue, customerId);
+                }
 
 
 
@@ -323,21 +320,13 @@ void displayTable(string line,  vector<string> &columns, vector<string> &rows, v
         } 
 }
 
-void updateCustomer(vector<vector<string>>& twoDrows, const vector<string>& columnNames, const string& columnName, const string& newValue, int customerId){
-    //This the update function declaration
-else if (line.find("UPDATE") != std::string::npos) { //This line chacks if input file has the word update
-                    string tableName = line.substr(line.find("UPDATE") + 7, line.find("SET") - (line.find("UPDATE") + 7)); //
-                    tableName = tableName.substr(0, tableName.find(" "));  // Clean up the table name
-
-                    string setPart = line.substr(line.find("SET") + 4, line.find("WHERE") - (line.find("SET") + 4));
-                    string columnName = setPart.substr(0, setPart.find("="));
-                    string newValue = setPart.substr(setPart.find("=") + 1);
-                    newValue = newValue.substr(1, newValue.size() - 2); // Remove the surrounding quotes
-
-                    string wherePart = line.substr(line.find("WHERE") + 6);
-                    int customerId = stoi(wherePart.substr(wherePart.find("customer_id=") + 12));
-
-                    updateCustomer(twoDrows, columnNames, columnName, newValue, customerId);
-                }
-}
+void updateCustomer(vector<vector<string>>& twoDrows, const vector<string>& columnNames, const string& columnName, const string& newValue, int customerId) {
+    // Find column index based on column name
+    int columnIndex = -1;
+    for (int i = 0; i < columnNames.size(); ++i) {
+        if (columnNames[i] == columnName) {
+            columnIndex = i;
+            break;
+        }
+    }
 
