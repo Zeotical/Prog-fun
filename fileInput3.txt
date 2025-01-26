@@ -23,11 +23,14 @@ student_phone, student_email) VALUES (3,'name3','DOB3','nationality3','programme
 INSERT INTO
 student(student_id, student_name, student_DOB, student_nationality,student_programme,
 student_phone, student_email) VALUES (4,'name4','DOB4','nationality4','programme4','phone4','email4');
+INSERT INTO
+student(student_id, student_name, student_DOB, student_nationality,student_programme,
+student_phone, student_email) VALUES (5,'name5','DOB5','nationality5','programme5','phone5','email5');
 SELECT * FROM student;
 
 TABLES;
 
-UPDATE student SET student_email='email333' WHERE student_id=3; 
+UPDATE student SET student_phone='phone4444' WHERE student_id=4; 
 SELECT * FROM student;
 
 DELETE FROM student WHERE student_id=4;

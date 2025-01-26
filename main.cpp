@@ -127,8 +127,9 @@ if (dataIn) { //outer if
              string newValue = line.substr(pos3, pos4-pos3);
 
              int pos5 = line.find_last_of("=")+ 1;
-             string row = line.substr(pos5,1);
-             int rowToUpdate = stoi(row) -1 ;
+             int pos6 = line.find(";") ;
+             string row = line.substr(pos5,pos6);
+             int rowToUpdate = stoi(row) ;
 
     
                     updateRows(twoDrows, columns, columnValue, newValue, rowToUpdate);
@@ -371,14 +372,18 @@ void updateRows(vector<vector<string>>& twoDrows, vector<string> &columns,string
         return;
     }
 
-    // Update the row corresponding to the customerId
+    // Update the row corresponding to the ID
     for (auto& row : twoDrows) {
-        if (stoi(row[0]) == rowToUpdate+1) { // Assuming the first column is customer_id
+        if (stoi(row[0]) == rowToUpdate) { // Assuming the first column is ID
              for (int col = 0; col < columns.size(); ++col) {
                 if (columns[col] == columnValue) { 
                     row[col] = newValue;
                 }}
-            break;
-        }
+            break; }
+        else if (stoi(row[0]) != rowToUpdate){
+            cout << "No such ID found"<<endl;
+        }    
+         
+        
     }
 }
