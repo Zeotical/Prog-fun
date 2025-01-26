@@ -373,7 +373,7 @@ void updateRows(vector<vector<string>>& twoDrows, vector<string> &columns,string
 
     // Update the row corresponding to the customerId
     for (auto& row : twoDrows) {
-        if (stoi(row[0]) == rowToUpdate) { // Assuming the first column is customer_id
+        if (stoi(row[0]) == rowToUpdate+1) { // Assuming the first column is customer_id
              for (int col = 0; col < columns.size(); ++col) {
                 if (columns[col] == columnValue) { 
                     row[col] = newValue;
