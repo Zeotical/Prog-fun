@@ -93,17 +93,17 @@ if (dataIn) { //outer if
         }
 
         //Extracting Columns
-        else if (line.find("INT")!= std::string::npos || line.find("TEXT")!= std::string::npos && columns.size() <= 9 )   {
+        else if (line.find("INT")!= string::npos || line.find("TEXT")!= string::npos && columns.size() <= 9 )   {
 
          extractColumns(line,columns,dataOut); }
 
         //Exatracting ROWS
-        else if (line.find("VALUES")!= std::string::npos){
+        else if (line.find("VALUES")!= string::npos){
          extractRows(line,rows,twoDrows,dataOut);
         }
 
         //Display Table
-        else if (line.find("SELECT * FROM")!= std::string::npos){
+        else if (line.find("SELECT * FROM")!= string::npos){
          displayTable(line,columns,rows,twoDrows,dataOut);
          }
 
@@ -114,7 +114,7 @@ if (dataIn) { //outer if
         }
 
         //Update Row
-        else if (line.find("UPDATE") != std::string::npos) {
+        else if (line.find("UPDATE") != string::npos) {
                     string setPart = line.substr(line.find("SET") + 4, line.find("WHERE") - (line.find("SET") + 4));
                     string columnName = setPart.substr(0, setPart.find("="));
                     string newValue = setPart.substr(setPart.find("=") + 2);
@@ -127,7 +127,7 @@ if (dataIn) { //outer if
                 }
 
         // ROW COUNTER
-        else if (line.find("SELECT COUNT(*)")!= std::string::npos){
+        else if (line.find("SELECT COUNT(*)")!= string::npos){
          rowCounter(line,twoDrows,dataOut);
          }
   
@@ -202,7 +202,7 @@ void markCommands(string &line, string symbol ,ofstream &dataOut){
 }
 
 void displayFilepath(string line,string filename, ofstream &dataOut){
-    string filepath = std::filesystem::absolute(filename);
+    string filepath = filesystem::absolute(filename);
     cout << filepath ;
     dataOut << filepath ;
     }
@@ -221,12 +221,12 @@ void createTable(string line, string &tableName ,ofstream &dataOut){
 }
 
 void extractColumns(string line,vector <string> &columns,ofstream &dataOut){
-    if (line.find("INT")!= std::string::npos && line.find("INSERT INTO")== std::string::npos && columns.size() <= 9 )   { //line find INT from INSERT INTO so to avoide that I search for lines that don't contain it.
+    if (line.find("INT")!= string::npos && line.find("INSERT INTO")== string::npos && columns.size() <= 9 )   { //line find INT from INSERT INTO so to avoide that I search for lines that don't contain it.
                     int pos = line.find("INT") - 1 ;
                     string integer = line.substr(0,pos);
                     columns.push_back(integer);
             }
-    else if (line.find("TEXT")!= std::string::npos && columns.size() <=9 ) {
+    else if (line.find("TEXT")!= string::npos && columns.size() <=9 ) {
                     int pos = line.find("TEXT") - 1;
                     string text = line.substr(0,pos);
                     columns.push_back(text);
@@ -253,7 +253,7 @@ void extractRows(string line, vector<string> &rows, vector<vector<string>> &twoD
 
             while (!all_values.find("'"))  {
 
-            if( all_values.find("',") != std::string::npos) { //Takes out all the values between the number and the last value
+            if( all_values.find("',") != string::npos) { //Takes out all the values between the number and the last value
             pos1= all_values.find("'") +1 ;
             pos2 = all_values.find("',")-1;
 
