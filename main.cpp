@@ -41,6 +41,7 @@ void displayCols (string, vector<string> & , ofstream&);
 void displayRows (string, vector<string> & ,vector<vector<string>>&, ofstream&);
 void displayTable (string,vector<string> &,vector<string> & ,vector<vector<string>>&,ofstream&) ;
 void rowCounter(string,vector<vector<string>>&, ofstream&);
+void deleteRows(string,vector<vector<string>>&, ofstream&);
 
 
 
@@ -103,14 +104,24 @@ if (dataIn) { //outer if
         else if (line.find("SELECT * FROM")!= std::string::npos){
          displayTable(line,columns,rows,twoDrows,dataOut);
          }
+
+        // DELETE ROWS
+        else if (line.find("DELETE FROM") != string::npos && line.find("WHERE") != string::npos){
+         deleteRows(line,twoDrows,dataOut);
+
+        }
+
         // ROW COUNTER
         else if (line.find("SELECT COUNT(*)")!= std::string::npos){
          rowCounter(line,twoDrows,dataOut);
          }
+  
+        
+
     }// inner while loop
     }//outer while loop
     dataIn.close() ;
-//CSV output file
+    //CSV output file
     dataOut.close() ;
     do
     {
@@ -128,6 +139,7 @@ if (dataIn) { //outer if
             displayTable(line,columns,rows,twoDrows,dataOut) ;
             output_choice= 'N';
     } }  while (output_choice != 'Y' && output_choice != 'N');
+
 
 
 }
@@ -212,39 +224,36 @@ void extractRows(string line, vector<string> &rows, vector<vector<string>> &twoD
     int pos1= line.find(" (") + 2 ;
     int pos2 = line.find(";");
 
-    string all_values = line.substr(pos1,pos2-pos1) ; // takes out 4,'name4','city4','state4','country4','phone4','email4'
+    string all_values = line.substr(pos1,pos2-pos1) ; // takes out the values eg: 4,'name4','city4','state4','country4','phone4','email4'
         //cout << all_values;
     if(all_values.find(",")) { //inner if
         int pos1= 0 ;
         int pos2 = all_values.find(",");
 
             string sep_values = all_values.substr(pos1,pos2) ;
-            //cout << sep_values << endl ;     // prints the number
-            rows.push_back(sep_values) ;
+            rows.push_back(sep_values) ; //pushes the number into the rows vector
             int pos ;
             pos = all_values.find(",") ;
-            all_values.erase(0, pos+1) ; //removes the number if i remember right
+            all_values.erase(0, pos+1) ; //removes the number from the rest of the values
 
             while (!all_values.find("'"))  {
 
-            if( all_values.find("',") != std::string::npos) {
+            if( all_values.find("',") != std::string::npos) { //Takes out all the values between the number and the last value
             pos1= all_values.find("'") +1 ;
             pos2 = all_values.find("',")-1;
 
             sep_values = all_values.substr(pos1,pos2) ;
-            //cout << sep_values << endl ; //all values between the number and the last value
             rows.push_back(sep_values);
             pos = all_values.find("',") ;
             all_values.erase(0, pos + 2) ;
             }
 
-            else {
+            else { //Takes out the last value
             pos1= all_values.find("'") +1;
             pos2 = all_values.find_last_of("'");
             sep_values = all_values.substr(pos1,pos2-pos1) ;
-            //cout << sep_values << endl ; //the last value
             rows.push_back(sep_values);
-            twoDrows.push_back(rows) ; /// variable an then from there add ++
+            twoDrows.push_back(rows) ;
             all_values.clear();} // clears the sub so the loop stops
 
             } // while loop
@@ -300,3 +309,24 @@ void rowCounter (string line, vector<vector<string>> &twoDrows, ofstream &dataOu
     cout << twoDrows.size() << endl;
     dataOut  << twoDrows.size() << endl;
     }
+
+void deleteRows(string line,vector<vector<string>> &twoDrows, ofstream &dataOut ){
+    int wherePos = line.find("WHERE");
+    string condition = line.substr(wherePos); // From "WHERE customer_id=X;"
+    int equalsPos = condition.find("=");
+    string targetID = condition.substr(equalsPos + 1); // Get the "X" value (e.g., "4;")
+    targetID = targetID.substr(0, targetID.find(";")); // Remove trailing ";"
+
+    // Convert targetID to integer
+    int targetRow = stoi(targetID);
+
+    // Delete the specific row in twoDrows based on targetID
+    for (int i = 0; i < twoDrows.size(); i++)
+    {
+        if (stoi(twoDrows[i][0]) == targetRow) // Compare with customer_id (first column)
+        {
+            twoDrows.erase(twoDrows.begin() + i); // Remove the row
+            break;                                // Exit after deleting the row
+        }
+    }
+}
