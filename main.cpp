@@ -32,7 +32,7 @@ ofstream dataOut; // outputs to a file
 
 // FUNCTIONS PROTOTYPES
 void createDb (string, ofstream&);
-void markKeywords (string&, string ,ofstream&);
+void markCommands (string&, string ,ofstream&);
 void displayFilepath (string, string, ofstream&);
 void createTable (string,string&,ofstream&);
 void extractColumns (string, vector<string>&, ofstream&);
@@ -65,17 +65,19 @@ do{
 if (dataIn) { //outer if
     // add timer to display output after a bit
     while (getline(dataIn,line) ) { // Reads each line from the input file (dataIn) into the string 'line' //while loop
-        if (!line.find("CREATE")) {    //True if "CREATE" is at the start of the line."!" negates 0 (index pos of CREATE) to true.
+        //DATABASE OPERATIONS
+        if (!line.find("CREATE")) {    //True if "CREATE" is at the start of the line."!" negat es 0 (index pos of CREATE) to true.
         createDb(line,dataOut) ;
         }
+        cout << line << endl; //Writes the CREATE command to the terminal
+        dataOut<< line << endl;  //Writes the CREATE command to the output file
         while(getline(dataIn,line) ) {
         // INSERTING THIS > AT THE BEGINNING OF EACH KEYWORD
-         markKeywords(line,symbol,dataOut);
+         markCommands(line,symbol,dataOut);
 
         cout << line << endl; //Writes each line to the terminal
-        dataOut<< line << endl;  // " " to the outputfile
-        //DATABASE OPERATIONS
-        
+        dataOut<< line << endl;  //Writes each line to the output file
+
         //FILE PATH
          if (!line.find("> DATABASES")){
          displayFilepath(line,filename,dataOut);
@@ -160,7 +162,7 @@ void createDb(string line, ofstream &dataOut) {
     dataOut.open(dbName); //Opens the file using the extracted filename stored in 'dbName'
     }
 
-void markKeywords(string &line, string symbol ,ofstream &dataOut){
+void markCommands(string &line, string symbol ,ofstream &dataOut){
     if (!line.find("CREATE")||!line.find("DATABASES")|| !line.find("CREATE TABLE") ||
             !line.find("TABLES;") || !line.find("INSERT INTO") ||
             !line.find("SELECT * FROM") || !line.find("SELECT COUNT(*)") ||
@@ -292,7 +294,7 @@ void displayTable(string line,  vector<string> &columns, vector<string> &rows, v
     }
 
 
-   void rowCounter (string line, vector<vector<string>> &twoDrows, ofstream &dataOut){
+void rowCounter (string line, vector<vector<string>> &twoDrows, ofstream &dataOut){
 
     cout << twoDrows.size() << endl;
     dataOut  << twoDrows.size() << endl;
