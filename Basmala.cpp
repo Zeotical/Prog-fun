@@ -90,7 +90,7 @@ if (dataIn) { //outer if
                     cout << twoDrows.size() << endl;
                     dataOut  << twoDrows.size() << endl;
     }
-
+             
         //Delete row
         // if (line.find("DELETE FROM")!= std::string::npos ) 
         // {
@@ -299,3 +299,22 @@ void displayTable(string line,  vector<string> &columns, vector<string> &rows, v
   
         } 
 }
+
+void updateCustomer(vector<vector<string>>& twoDrows, const vector<string>& columnNames, const string& columnName, const string& newValue, int customerId){
+    //This the update function declaration
+else if (line.find("UPDATE") != std::string::npos) { //This line chacks if input file has the word update
+                    string tableName = line.substr(line.find("UPDATE") + 7, line.find("SET") - (line.find("UPDATE") + 7)); //
+                    tableName = tableName.substr(0, tableName.find(" "));  // Clean up the table name
+
+                    string setPart = line.substr(line.find("SET") + 4, line.find("WHERE") - (line.find("SET") + 4));
+                    string columnName = setPart.substr(0, setPart.find("="));
+                    string newValue = setPart.substr(setPart.find("=") + 1);
+                    newValue = newValue.substr(1, newValue.size() - 2); // Remove the surrounding quotes
+
+                    string wherePart = line.substr(line.find("WHERE") + 6);
+                    int customerId = stoi(wherePart.substr(wherePart.find("customer_id=") + 12));
+
+                    updateCustomer(twoDrows, columnNames, columnName, newValue, customerId);
+                }
+}
+
