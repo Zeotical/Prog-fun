@@ -115,15 +115,22 @@ if (dataIn) { //outer if
 
         //Update Row
         else if (line.find("UPDATE") != string::npos) {
-                    string setPart = line.substr(line.find("SET") + 4, line.find("WHERE") - (line.find("SET") + 4));
-                    string columnName = setPart.substr(0, setPart.find("="));
-                    string newValue = setPart.substr(setPart.find("=") + 2);
-                    newValue = newValue.substr(1, newValue.size() - 1); // Remove the surrounding quotes
+            int pos = line.find("SET")+ 4;
+             int pos2 = line.find("=");
+             string columnValue = line.substr(pos,pos2-pos);
+
+             int pos3 = line.find("=") + 2 ;
+             int pos4 = line.find_last_of("'")  ;
+             string newValue = line.substr(pos3, pos4-pos3);
+
+             int pos5 = line.find_last_of("=")+ 1;
+             string row = line.substr(pos5,1);
+             int rowToUpdate = stoi(row) -1 ;
 
                     string wherePart = line.substr(line.find("WHERE") + 6);
                     int customerId = stoi(wherePart.substr(wherePart.find("customer_id=") + 12));
 
-                    updateCustomer(twoDrows, columns, columnName, newValue, customerId);
+                    updateCustomer(twoDrows, columns, columnValue, newValue, customerId);
                 }
 
         // ROW COUNTER
